@@ -24,8 +24,13 @@ object TestUnitForm: TTestUnitForm
     Caption = 'Button1'
     TabOrder = 0
     OnClick = Button1Click
-    ExplicitLeft = 24
-    ExplicitTop = 536
-    ExplicitWidth = 75
+  end
+  object Panel1: TPanel
+    Left = 456
+    Top = 440
+    Width = 185
+    Height = 41
+    Caption = 'Panel1'
+    TabOrder = 1
   end
 end

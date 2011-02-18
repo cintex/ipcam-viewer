@@ -4,11 +4,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, IPCamViewerVCL, StdCtrls;
+  Dialogs, IPCamViewerVCL, StdCtrls, ExtCtrls;
 
 type
   TTestUnitForm = class(TForm)
     Button1: TButton;
+    Panel1: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -31,6 +32,8 @@ implementation
 procedure TTestUnitForm.Button1Click(Sender: TObject);
 begin
   Viewer.Host := '192.168.1.63';
+  Viewer.JpgURL := '/imagep/picture.jpg';
+  Viewer.Connect;
 end;
 
 procedure TTestUnitForm.FormCreate(Sender: TObject);
