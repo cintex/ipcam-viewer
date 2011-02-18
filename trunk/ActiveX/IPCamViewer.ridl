@@ -1,0 +1,314 @@
+// ************************************************************************ //
+// AVERTISSEMENT
+// -------
+// Ce fichier est généré par l'importateur ou l'éditeur de bibliothèques de types.
+// Sauf les erreurs de syntaxe, l'éditeur analysera les modifications apportées au fichier.
+// Toutefois, lors de l'application de changements via l'éditeur, ce fichier sera régénéré
+// et les commentaires et les changements de formatage seront perdus.
+// ************************************************************************ //
+// Fichier généré le 17/02/2011 18:13:32 (- $Rev: 12980 $, 34813479).
+
+[
+  uuid(078BEFC3-BAB7-476B-810C-F687E48CB8EF),
+  version(1.0),
+  control
+
+]
+library IPCamViewerCtrl
+{
+
+  importlib("stdole2.tlb");
+
+  interface IIPCamViewerAx;
+  dispinterface IIPCamViewerAxEvents;
+  coclass IPCamViewerAx;
+
+
+  [
+    uuid(8E1ED201-8796-48FE-A474-C86A5849A96A)
+  ]
+  enum TxAlignment
+  {
+    [helpstring("taLeftJustify")]
+    taLeftJustify = 0,
+    [helpstring("taRightJustify")]
+    taRightJustify = 1,
+    [helpstring("taCenter")]
+    taCenter = 2
+  };
+
+  [
+    uuid(A2575048-0DD3-429A-B49B-2F5CAC22438F)
+  ]
+  enum TxBevelCut
+  {
+    [helpstring("bvNone")]
+    bvNone = 0,
+    [helpstring("bvLowered")]
+    bvLowered = 1,
+    [helpstring("bvRaised")]
+    bvRaised = 2,
+    [helpstring("bvSpace")]
+    bvSpace = 3
+  };
+
+  [
+    uuid(85CE0147-026F-48E6-B827-A8C8C4A70941)
+  ]
+  enum TxBevelKind
+  {
+    [helpstring("bkNone")]
+    bkNone = 0,
+    [helpstring("bkTile")]
+    bkTile = 1,
+    [helpstring("bkSoft")]
+    bkSoft = 2,
+    [helpstring("bkFlat")]
+    bkFlat = 3
+  };
+
+  [
+    uuid(CF650B2A-CC8B-4945-A888-DAD269417EC2)
+  ]
+  enum TxBorderStyle
+  {
+    [helpstring("bsNone")]
+    bsNone = 0,
+    [helpstring("bsSingle")]
+    bsSingle = 1
+  };
+
+  [
+    uuid(60D90417-4340-420F-8BF6-6F51778EE583)
+  ]
+  enum TxDragMode
+  {
+    [helpstring("dmManual")]
+    dmManual = 0,
+    [helpstring("dmAutomatic")]
+    dmAutomatic = 1
+  };
+
+  [
+    uuid(5DA707F5-4C9F-4D70-91AA-A45C7F3F9F6F)
+  ]
+  enum TxVerticalAlignment
+  {
+    [helpstring("taAlignTop")]
+    taAlignTop = 0,
+    [helpstring("taAlignBottom")]
+    taAlignBottom = 1,
+    [helpstring("taVerticalCenter")]
+    taVerticalCenter = 2
+  };
+
+  [
+    uuid(13D66BB9-5B6F-4CA9-A967-E074156706BB)
+  ]
+  enum TxMouseButton
+  {
+    [helpstring("mbLeft")]
+    mbLeft = 0,
+    [helpstring("mbRight")]
+    mbRight = 1,
+    [helpstring("mbMiddle")]
+    mbMiddle = 2
+  };
+
+  [
+    custom(8B342977-45CB-4A01-A8F2-E47B61F3539E, 0)
+  ]
+  typedef IFontDisp** PPUserType1;
+
+  [
+    uuid(D340B454-B893-42D7-ABF0-CAE159CA52A1),
+    helpstring("Interface dispatch pour IPCamViewerAx Contrôle"),
+    dual,
+    oleautomation
+  ]
+  interface IIPCamViewerAx: IDispatch
+  {
+    [id(0x000000C9)]
+    HRESULT _stdcall Connect(void);
+    [id(0x000000CA)]
+    HRESULT _stdcall Disconnect(void);
+    [propget, id(0x000000CB)]
+    HRESULT _stdcall Host([out, retval] BSTR* Value);
+    [propput, id(0x000000CB)]
+    HRESULT _stdcall Host([in] BSTR Value);
+    [propget, id(0x000000CC)]
+    HRESULT _stdcall Alignment([out, retval] enum TxAlignment* Value);
+    [propput, id(0x000000CC)]
+    HRESULT _stdcall Alignment([in] enum TxAlignment Value);
+    [propget, id(0x000000CD)]
+    HRESULT _stdcall AutoSize([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000CD)]
+    HRESULT _stdcall AutoSize([in] VARIANT_BOOL Value);
+    [propget, id(0x000000CE)]
+    HRESULT _stdcall BevelInner([out, retval] enum TxBevelCut* Value);
+    [propput, id(0x000000CE)]
+    HRESULT _stdcall BevelInner([in] enum TxBevelCut Value);
+    [propget, id(0x000000CF)]
+    HRESULT _stdcall BevelKind([out, retval] enum TxBevelKind* Value);
+    [propput, id(0x000000CF)]
+    HRESULT _stdcall BevelKind([in] enum TxBevelKind Value);
+    [propget, id(0x000000D0)]
+    HRESULT _stdcall BevelOuter([out, retval] enum TxBevelCut* Value);
+    [propput, id(0x000000D0)]
+    HRESULT _stdcall BevelOuter([in] enum TxBevelCut Value);
+    [propget, id(0x000000D1)]
+    HRESULT _stdcall BorderStyle([out, retval] enum TxBorderStyle* Value);
+    [propput, id(0x000000D1)]
+    HRESULT _stdcall BorderStyle([in] enum TxBorderStyle Value);
+    [propget, id(0xFFFFFDFA)]
+    HRESULT _stdcall Caption([out, retval] BSTR* Value);
+    [propput, id(0xFFFFFDFA)]
+    HRESULT _stdcall Caption([in] BSTR Value);
+    [propget, id(0xFFFFFE0B)]
+    HRESULT _stdcall Color([out, retval] OLE_COLOR* Value);
+    [propput, id(0xFFFFFE0B)]
+    HRESULT _stdcall Color([in] OLE_COLOR Value);
+    [propget, id(0x000000D2)]
+    HRESULT _stdcall Ctl3D([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D2)]
+    HRESULT _stdcall Ctl3D([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D3)]
+    HRESULT _stdcall UseDockManager([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D3)]
+    HRESULT _stdcall UseDockManager([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D4)]
+    HRESULT _stdcall DockSite([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D4)]
+    HRESULT _stdcall DockSite([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D5)]
+    HRESULT _stdcall DoubleBuffered([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D5)]
+    HRESULT _stdcall DoubleBuffered([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D6)]
+    HRESULT _stdcall DragCursor([out, retval] short* Value);
+    [propput, id(0x000000D6)]
+    HRESULT _stdcall DragCursor([in] short Value);
+    [propget, id(0x000000D7)]
+    HRESULT _stdcall DragMode([out, retval] enum TxDragMode* Value);
+    [propput, id(0x000000D7)]
+    HRESULT _stdcall DragMode([in] enum TxDragMode Value);
+    [propget, id(0xFFFFFDFE)]
+    HRESULT _stdcall Enabled([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0xFFFFFDFE)]
+    HRESULT _stdcall Enabled([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D8)]
+    HRESULT _stdcall FullRepaint([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D8)]
+    HRESULT _stdcall FullRepaint([in] VARIANT_BOOL Value);
+    [propget, id(0xFFFFFE00)]
+    HRESULT _stdcall Font([out, retval] IFontDisp** Value);
+    [propput, id(0xFFFFFE00)]
+    HRESULT _stdcall Font([in] IFontDisp* Value);
+    [propputref, id(0xFFFFFE00)]
+    HRESULT _stdcall Font([in] IFontDisp** Value);
+    [propget, id(0x000000D9)]
+    HRESULT _stdcall Locked([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D9)]
+    HRESULT _stdcall Locked([in] VARIANT_BOOL Value);
+    [propget, id(0x000000DA)]
+    HRESULT _stdcall ParentBackground([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000DA)]
+    HRESULT _stdcall ParentBackground([in] VARIANT_BOOL Value);
+    [propget, id(0x000000DB)]
+    HRESULT _stdcall ParentColor([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000DB)]
+    HRESULT _stdcall ParentColor([in] VARIANT_BOOL Value);
+    [propget, id(0x000000DC)]
+    HRESULT _stdcall ParentCtl3D([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000DC)]
+    HRESULT _stdcall ParentCtl3D([in] VARIANT_BOOL Value);
+    [propget, id(0x000000DD)]
+    HRESULT _stdcall ParentDoubleBuffered([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000DD)]
+    HRESULT _stdcall ParentDoubleBuffered([in] VARIANT_BOOL Value);
+    [propget, id(0x000000DE)]
+    HRESULT _stdcall ShowCaption([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000DE)]
+    HRESULT _stdcall ShowCaption([in] VARIANT_BOOL Value);
+    [propget, id(0x000000DF)]
+    HRESULT _stdcall VerticalAlignment([out, retval] enum TxVerticalAlignment* Value);
+    [propput, id(0x000000DF)]
+    HRESULT _stdcall VerticalAlignment([in] enum TxVerticalAlignment Value);
+    [propget, id(0x000000E0)]
+    HRESULT _stdcall Visible([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000E0)]
+    HRESULT _stdcall Visible([in] VARIANT_BOOL Value);
+    [id(0x000000E1)]
+    HRESULT _stdcall SetDesignVisible([in] VARIANT_BOOL Value);
+    [propget, id(0x000000E2), hidden]
+    HRESULT _stdcall AlignDisabled([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000E3), hidden]
+    HRESULT _stdcall MouseInClient([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000E4), hidden]
+    HRESULT _stdcall VisibleDockClientCount([out, retval] long* Value);
+    [id(0x000000E5)]
+    HRESULT _stdcall DrawTextBiDiModeFlagsReadingOnly([out, retval] long* Value);
+    [id(0x000000E6)]
+    HRESULT _stdcall InitiateAction(void);
+    [id(0x000000E7)]
+    HRESULT _stdcall IsRightToLeft([out, retval] VARIANT_BOOL* Value);
+    [id(0x000000E8)]
+    HRESULT _stdcall UseRightToLeftReading([out, retval] VARIANT_BOOL* Value);
+    [id(0x000000E9)]
+    HRESULT _stdcall UseRightToLeftScrollBar([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000EA), hidden]
+    HRESULT _stdcall ExplicitLeft([out, retval] long* Value);
+    [propget, id(0x000000EB), hidden]
+    HRESULT _stdcall ExplicitTop([out, retval] long* Value);
+    [propget, id(0x000000EC), hidden]
+    HRESULT _stdcall ExplicitWidth([out, retval] long* Value);
+    [propget, id(0x000000ED), hidden]
+    HRESULT _stdcall ExplicitHeight([out, retval] long* Value);
+    [propget, id(0x000000EE)]
+    HRESULT _stdcall AlignWithMargins([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000EE)]
+    HRESULT _stdcall AlignWithMargins([in] VARIANT_BOOL Value);
+    [propget, id(0x000000EF)]
+    HRESULT _stdcall ParentCustomHint([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000EF)]
+    HRESULT _stdcall ParentCustomHint([in] VARIANT_BOOL Value);
+    [id(0x000000F0)]
+    HRESULT _stdcall SetSubComponent([in] VARIANT_BOOL IsSubComponent);
+  };
+
+  [
+    uuid(45B46F66-FC40-4DC7-8BFC-5F7606C4C44B),
+    helpstring("Interface d'événements pour IPCamViewerAx Contrôle")
+  ]
+  dispinterface IIPCamViewerAxEvents
+  {
+    properties:
+    methods:
+    [id(0x000000C9)]
+    void OnCanResize([in, out] long* NewWidth, [in, out] long* NewHeight, [in, out] VARIANT_BOOL* Resize);
+    [id(0x000000CA)]
+    void OnClick(void);
+    [id(0x000000CB)]
+    void OnConstrainedResize([in, out] long* MinWidth, [in, out] long* MinHeight, [in, out] long* MaxWidth, [in, out] long* MaxHeight);
+    [id(0x000000CC)]
+    void OnDblClick(void);
+    [id(0x000000CD)]
+    void OnMouseEnter(void);
+    [id(0x000000CE)]
+    void OnMouseLeave(void);
+    [id(0x000000CF)]
+    void OnResize(void);
+  };
+
+  [
+    uuid(8FB3F136-96B6-44AC-80EE-BEF071923492),
+    helpstring("IPCamViewerAx Contrôle"),
+    control
+  ]
+  coclass IPCamViewerAx
+  {
+    [default] interface IIPCamViewerAx;
+    [default, source] dispinterface IIPCamViewerAxEvents;
+  };
+
+};
