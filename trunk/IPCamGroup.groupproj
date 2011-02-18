@@ -3,10 +3,10 @@
 			<ProjectGuid>{B1FEB20C-3754-4D17-A102-A4209042E07B}</ProjectGuid>
 		</PropertyGroup>
 		<ItemGroup>
-			<Projects Include="IPCamViewer.dproj">
+			<Projects Include="IPCamViewerPackage.dproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="ActiveX\IPCamViewer.dproj">
+			<Projects Include="IPCamViewer.dproj">
 				<Dependencies/>
 			</Projects>
 		</ItemGroup>
@@ -17,23 +17,32 @@
 				<Default.Personality/>
 			</BorlandProject>
 		</ProjectExtensions>
+		<Target Name="IPCamViewerPackage">
+			<MSBuild Projects="IPCamViewerPackage.dproj"/>
+		</Target>
+		<Target Name="IPCamViewerPackage:Clean">
+			<MSBuild Targets="Clean" Projects="IPCamViewerPackage.dproj"/>
+		</Target>
+		<Target Name="IPCamViewerPackage:Make">
+			<MSBuild Targets="Make" Projects="IPCamViewerPackage.dproj"/>
+		</Target>
 		<Target Name="IPCamViewer">
-			<MSBuild Projects="ActiveX\IPCamViewer.dproj"/>
+			<MSBuild Projects="IPCamViewer.dproj"/>
 		</Target>
 		<Target Name="IPCamViewer:Clean">
-			<MSBuild Targets="Clean" Projects="ActiveX\IPCamViewer.dproj"/>
+			<MSBuild Targets="Clean" Projects="IPCamViewer.dproj"/>
 		</Target>
 		<Target Name="IPCamViewer:Make">
-			<MSBuild Targets="Make" Projects="ActiveX\IPCamViewer.dproj"/>
+			<MSBuild Targets="Make" Projects="IPCamViewer.dproj"/>
 		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="IPCamViewer;IPCamViewer"/>
+			<CallTarget Targets="IPCamViewerPackage;IPCamViewer"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="IPCamViewer:Clean;IPCamViewer:Clean"/>
+			<CallTarget Targets="IPCamViewerPackage:Clean;IPCamViewer:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="IPCamViewer:Make;IPCamViewer:Make"/>
+			<CallTarget Targets="IPCamViewerPackage:Make;IPCamViewer:Make"/>
 		</Target>
 		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 	</Project>
