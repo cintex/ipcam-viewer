@@ -4,19 +4,19 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, IPCamViewerVCL, StdCtrls, ExtCtrls;
+  Dialogs, IPCamViewerVCL, StdCtrls, ExtCtrls, JvComponentBase, JvThread,
+  IdBaseComponent ;
 
 type
   TTestUnitForm = class(TForm)
     Button1: TButton;
+    JvThread1: TJvThread;
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
   private
     { Déclarations privées }
   public
     { Déclarations publiques }
-    Viewer : TIPCamViewerVCL;
+
   end;
 
 var
@@ -28,30 +28,37 @@ implementation
 
 
 
-procedure TTestUnitForm.Button1Click(Sender: TObject);
-begin
-  Viewer.Host := '192.168.1.61';
-  Viewer.JpgURL := '/imagep/picture.jpg';
-  Viewer.Connect;
-end;
-
 procedure TTestUnitForm.FormCreate(Sender: TObject);
+var
+  Viewer : TIPCamViewerVCL;
 begin
 
   Viewer := TIPCamViewerVCL.Create(Self);
+  Viewer.Align := alTop;
   Viewer.Parent := Self;
-  Viewer.Width := 640;
-  Viewer.Height := 480;
+  Viewer.Height := 240;
   Viewer.Host := '192.168.1.63';
   Viewer.JpgURL := '/imagep/picture.jpg';
   Viewer.Autoconnect := True;
 
 
-end;
+  Viewer := TIPCamViewerVCL.Create(Self);
+  Viewer.Align := alTop;
+  Viewer.Parent := Self;
+  Viewer.Height := 240;
+  Viewer.Host := '192.168.1.64';
+  Viewer.JpgURL := '/imagep/picture.jpg';
+  Viewer.Autoconnect := True;
 
-procedure TTestUnitForm.FormDestroy(Sender: TObject);
-begin
-  Viewer.Free;
+
+  Viewer := TIPCamViewerVCL.Create(Self);
+  Viewer.Align := alTop;
+  Viewer.Parent := Self;
+  Viewer.Height := 240;
+  Viewer.Host := '192.168.1.62';
+  Viewer.JpgURL := '/imagep/picture.jpg';
+  Viewer.Autoconnect := True;
+
 end;
 
 end.

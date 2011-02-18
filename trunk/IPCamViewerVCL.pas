@@ -14,6 +14,7 @@ uses
   Dialogs,
   StdCtrls,
   ExtCtrls,
+  jpeg,
   IdBaseComponent,
   IdComponent,
   IdTCPConnection,
@@ -24,6 +25,16 @@ uses
   IdIOHandlerStack;
 
 type
+
+  TIPCamResult =
+  (
+    ipcUnknown,
+    ipcWaiting,
+    ipcWorking,
+    ipcFailed,
+    ipcOk
+  );
+
   TLedPanel = class(TPanel)
   private
     FStatus: Boolean;
@@ -42,17 +53,33 @@ type
     property ColorOff : TColor read FColorOff write SetColorOff;
   end;
 
+  TIPCamViewerVCL = class;
+
+  TIPCamThread = class(TThread)
+  private
+    FWorking : Boolean;
+  protected
+    FIPCamViewer : TIPCamViewerVCL;
+    FPicture : TJPEGImage;
+    Fwget: TIdHTTP;
+    procedure Execute; override;
+  public
+    Result : TIPCamResult ;
+    constructor Create(CreateSuspended:boolean);
+    destructor Destroy; override;
+  end;
+
   TIPCamViewerVCL = class(TPanel)
-    wget: TIdHTTP;
     Image: TImage;
     Update: TTimer;
     UpPanel: TPanel;
     IPAddress: TLabel;
     CxStatus: TLedPanel;
     RxTx: TLedPanel;
-    IdIOHandlerStack: TIdIOHandlerStack;
+
     procedure UpdateTimer(Sender: TObject);
   private
+    FThread : TIPCamThread;
     FHost: string;
     FJpgURL: string;
     FAutoconnect: Boolean;
@@ -83,8 +110,6 @@ procedure Register;
 
 implementation
 
-uses
-  jpeg;
 
 procedure Register;
 begin
@@ -160,18 +185,13 @@ end;
 constructor TIPCamViewerVCL.Create(AOwner: TComponent);
 begin
   inherited;
-  IdIOHandlerStack := TIdIOHandlerStack.Create(Self);
+  FThread := TIPCamThread.Create(false);
+  FThread.FIPCamViewer := Self;
+
   BevelOuter := bvNone;
   Caption := 'IPCam-Viewer';
   //Font.Size := 24;
   Font.Color := clGrayText;
-
-  wget := TIdHTTP.Create(Self);
-  with wget do
-  begin
-    Name := 'wget';
-    IOHandler := IdIOHandlerStack;
-  end;
 
   Image := TImage.Create(Self);
   with Image do
@@ -231,7 +251,8 @@ begin
     Caption := '';
     Left := 448;
     Top := 0;
-    Width := 18;
+    Width := 8;
+    Margins.SetBounds(0,6,6,6);
     Align := alRight;
     Status := False;
     AlignWithMargins := true;
@@ -243,7 +264,8 @@ begin
     Caption := '';
     Left := 428;
     Top := 0;
-    Width := 18;
+    Width := 8;
+    Margins.SetBounds(0,6,6,6);
     Align := alRight;
     ColorOn := clYellow;
     ColorOff := clBlack;
@@ -263,8 +285,7 @@ begin
   UpPanel.Free;
   Update.Free;
   Image.Free;
-  wget.Free;
-  IdIOHandlerStack.Free;
+  FThread.Free;
   inherited;
 end;
 
@@ -281,29 +302,31 @@ var
   Picture: TJPEGImage;
 begin
   Update.Enabled := false;
-  wget.ConnectTimeout := 100;
-  wget.ReadTimeout := 1500;
 
-  try
-    JpgStream := TMemoryStream.Create;
-    wget.Get('http://'+FHost+FJpgURL, JpgStream);
-    JpgStream.Position := 0;
-    RxTx.Status := not RxTx.Status;
-
-    Picture := TJPEGImage.Create;
-    Picture.LoadFromStream(JpgStream);
-    Image.Picture.Assign(Picture);
-    Picture.Free;
-    Update.Interval := 100;
-    CxStatus.Status := True;
-    IPAddress.Caption := FHost;
-  except
-    Update.Interval := 2000;
-    CxStatus.Status := false;
-    IPAddress.Caption := IPAddress.Caption + '.';
+  if FThread.Result = ipcWaiting then
+  begin
+    FThread.Result := ipcWorking;
+    RxTx.Status := true;
   end;
 
-  JpgStream.Free;
+  if FThread.Result = ipcOk then
+  begin
+    Image.Picture.Assign(FThread.FPicture);
+    Update.Interval := 400;
+    CxStatus.Status := True;
+    RxTx.Status := false;
+    IPAddress.Caption := FHost;
+    FThread.Result := ipcWaiting;
+  end
+  else
+  if FThread.Result = ipcFailed then
+  begin
+    Update.Interval := 4000;
+    CxStatus.Status := false;
+    RxTx.Status := false;
+    IPAddress.Caption := IPAddress.Caption + '.';
+    FThread.Result := ipcWaiting;
+  end;
 
   if Update.Tag = 0 then
   begin
@@ -312,7 +335,7 @@ begin
   end
     else
   begin
-
+    FThread.Result := ipcUnknown;
   end;
 end;
 
@@ -322,6 +345,7 @@ begin
   Update.Tag := 0;
   Update.Enabled := True;
   IPAddress.Caption := 'Connecting';
+  FThread.Result := ipcWaiting;
 end;
 
 procedure TIPCamViewerVCL.Disconnect;
@@ -392,5 +416,66 @@ begin
   else
     Color := ColorOff;
 end;
+
+{ TIPCamThread }
+
+constructor TIPCamThread.Create(CreateSuspended: boolean);
+begin
+  inherited Create(CreateSuspended);
+
+  FreeOnTerminate:=false;
+  Priority:=tpNormal;
+
+  FPicture := TJPEGImage.Create;
+  Fwget := TIdHTTP.Create(nil);
+  with Fwget do
+  begin
+    Name := 'wget';
+    ConnectTimeout := 10000;
+  end;
+end;
+
+
+destructor TIPCamThread.Destroy;
+begin
+  Fwget.Free;
+  FPicture.Free;
+  inherited;
+end;
+
+procedure TIPCamThread.Execute;
+var
+  JpgStream: TMemoryStream;
+  Picture: TJPEGImage;
+begin
+  inherited;
+  repeat
+    Sleep(100); //en millisecondes
+    if Result = ipcWorking then
+    begin
+      Assert(not FWorking);
+      FWorking := True;
+
+      with FIPCamViewer do
+      begin
+        try
+          JpgStream := TMemoryStream.Create;
+          Fwget.Get('http://'+FHost+FJpgURL, JpgStream);
+          JpgStream.Position := 0;
+          FPicture.LoadFromStream(JpgStream);
+          Result := ipcOk;
+        except
+          Result := ipcFailed;
+        end;
+
+        JpgStream.Free;
+      end;
+      FWorking := false
+    end;
+
+  until Terminated;
+
+end;
+
 
 end.
