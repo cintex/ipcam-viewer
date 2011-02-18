@@ -25,12 +25,4 @@ object TestUnitForm: TTestUnitForm
     TabOrder = 0
     OnClick = Button1Click
   end
-  object Panel1: TPanel
-    Left = 456
-    Top = 440
-    Width = 185
-    Height = 41
-    Caption = 'Panel1'
-    TabOrder = 1
-  end
 end

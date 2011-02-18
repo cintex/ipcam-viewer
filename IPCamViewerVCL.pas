@@ -12,28 +12,44 @@ uses
   Controls,
   Forms,
   Dialogs,
+  StdCtrls,
   ExtCtrls,
   IdBaseComponent,
   IdComponent,
   IdTCPConnection,
   IdTCPClient,
   IdHTTP,
-  StdCtrls,
-  JvExControls,
-  JvLED,
   IdIOHandler,
   IdIOHandlerSocket,
   IdIOHandlerStack;
 
 type
+  TLedPanel = class(TPanel)
+  private
+    FStatus: Boolean;
+    FColorOff: TColor;
+    FColorOn: TColor;
+    procedure SetStatus(const Value: Boolean);
+    procedure SetColorOff(const Value: TColor);
+    procedure SetColorOn(const Value: TColor);
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+
+  published
+    property Status : Boolean read FStatus write SetStatus;
+    property ColorOn : TColor read FColorOn write SetColorOn;
+    property ColorOff : TColor read FColorOff write SetColorOff;
+  end;
+
   TIPCamViewerVCL = class(TPanel)
     wget: TIdHTTP;
     Image: TImage;
     Update: TTimer;
     UpPanel: TPanel;
     IPAddress: TLabel;
-    CxStatus: TJvLED;
-    RxTx: TJvLED;
+    CxStatus: TLedPanel;
+    RxTx: TLedPanel;
     IdIOHandlerStack: TIdIOHandlerStack;
     procedure UpdateTimer(Sender: TObject);
   private
@@ -146,6 +162,9 @@ begin
   inherited;
   IdIOHandlerStack := TIdIOHandlerStack.Create(Self);
   BevelOuter := bvNone;
+  Caption := 'IPCam-Viewer';
+  //Font.Size := 24;
+  Font.Color := clGrayText;
 
   wget := TIdHTTP.Create(Self);
   with wget do
@@ -176,8 +195,8 @@ begin
 
   UpPanel := TPanel.Create(Self);
   IPAddress := TLabel.Create(Self);
-  CxStatus := TJvLED.Create(Self);
-  RxTx := TJvLED.Create(Self);
+  CxStatus := TLedPanel.Create(Self);
+  RxTx := TLedPanel.Create(Self);
 
   with UpPanel do
   begin
@@ -186,10 +205,10 @@ begin
     Left := 0;
     Top := 0;
     Width := 468;
-    Height := 28;
+    Height := 20;
     Align := alTop;
     BevelOuter := bvNone;
-    Caption := 'Panel1';
+    Caption := '';
     Color := -1;
     ParentBackground := False;
     TabOrder := 0;
@@ -209,25 +228,27 @@ begin
   begin
     Name := 'CxStatus';
     Parent := UpPanel;
+    Caption := '';
     Left := 448;
     Top := 0;
-    Width := 20;
-    Height := 28;
+    Width := 18;
     Align := alRight;
     Status := False;
+    AlignWithMargins := true;
   end;
   with RxTx do
   begin
     Name := 'RxTx';
     Parent := UpPanel;
+    Caption := '';
     Left := 428;
     Top := 0;
-    Width := 20;
-    Height := 28;
+    Width := 18;
     Align := alRight;
     ColorOn := clYellow;
     ColorOff := clBlack;
     Status := False;
+    AlignWithMargins := true;
   end;
 
   Disconnect;
@@ -251,8 +272,6 @@ procedure TIPCamViewerVCL.Loaded;
 begin
   inherited;
 
-  if Autoconnect then
-    Connect;
 end;
 
 
@@ -316,6 +335,12 @@ end;
 procedure TIPCamViewerVCL.SetAutoconnect(const Value: Boolean);
 begin
   FAutoconnect := Value;
+
+  if FAutoconnect then
+    Connect
+  else
+    Disconnect;
+
 end;
 
 procedure TIPCamViewerVCL.SetHost(const Value: string);
@@ -327,6 +352,45 @@ end;
 procedure TIPCamViewerVCL.SetJpgURL(const Value: string);
 begin
   FJpgURL := Value;
+end;
+
+{ TLedPanel }
+
+constructor TLedPanel.Create(AOwner: TComponent);
+begin
+  inherited;
+  BevelOuter := bvNone;
+  ParentBackground := False;
+  ColorOn := clLime;
+  ColorOff := clRed;
+end;
+
+destructor TLedPanel.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TLedPanel.SetColorOff(const Value: TColor);
+begin
+  FColorOff := Value;
+  Status := FStatus;
+end;
+
+procedure TLedPanel.SetColorOn(const Value: TColor);
+begin
+  FColorOn := Value;
+  Status := FStatus;
+end;
+
+procedure TLedPanel.SetStatus(const Value: Boolean);
+begin
+  FStatus := Value;
+
+  if FStatus then
+    Color := ColorOn
+  else
+    Color := ColorOff;
 end;
 
 end.

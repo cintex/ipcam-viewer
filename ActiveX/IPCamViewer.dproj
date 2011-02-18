@@ -1,6 +1,6 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{395528D3-EFBC-4049-8AE3-71CBD462E818}</ProjectGuid>
+			<ProjectGuid>{5A8A0448-B19D-410F-BC3D-E139BF690B36}</ProjectGuid>
 			<ProjectVersion>12.0</ProjectVersion>
 			<MainSource>IPCamViewer.dpr</MainSource>
 			<Config Condition="'$(Config)'==''">Débogage</Config>
@@ -45,7 +45,7 @@
 			<DelphiCompile Include="IPCamViewer.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
-			<DCCReference Include="IPCamViewerCtrl_TLB.pas"/>
+			<DCCReference Include="IPCamViewer_TLB.pas"/>
 			<DCCReference Include="IPCamViewerAx.pas">
 				<CoClasses>IPCamViewerAx</CoClasses>
 			</DCCReference>

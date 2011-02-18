@@ -6,7 +6,7 @@ interface
 
 uses
   Windows, ActiveX, Classes, Controls, Graphics, Menus, Forms, StdCtrls,
-  ComServ, StdVCL, AXCtrls, IPCamViewerCtrl_TLB, IPCamViewerVCL, ExtCtrls;
+  ComServ, StdVCL, AXCtrls, IPCamViewer_TLB, IPCamViewerVCL, ExtCtrls;
 
 type
   TIPCamViewerAx = class(TActiveXControl, IIPCamViewerAx)
@@ -30,6 +30,7 @@ type
     function Get_AlignDisabled: WordBool; safecall;
     function Get_Alignment: TxAlignment; safecall;
     function Get_AlignWithMargins: WordBool; safecall;
+    function Get_Autoconnect: WordBool; safecall;
     function Get_AutoSize: WordBool; safecall;
     function Get_BevelInner: TxBevelCut; safecall;
     function Get_BevelKind: TxBevelKind; safecall;
@@ -50,6 +51,7 @@ type
     function Get_Font: IFontDisp; safecall;
     function Get_FullRepaint: WordBool; safecall;
     function Get_Host: WideString; safecall;
+    function Get_JpgURL: WideString; safecall;
     function Get_Locked: WordBool; safecall;
     function Get_MouseInClient: WordBool; safecall;
     function Get_ParentBackground: WordBool; safecall;
@@ -71,6 +73,7 @@ type
     procedure InitiateAction; safecall;
     procedure Set_Alignment(Value: TxAlignment); safecall;
     procedure Set_AlignWithMargins(Value: WordBool); safecall;
+    procedure Set_Autoconnect(Value: WordBool); safecall;
     procedure Set_AutoSize(Value: WordBool); safecall;
     procedure Set_BevelInner(Value: TxBevelCut); safecall;
     procedure Set_BevelKind(Value: TxBevelKind); safecall;
@@ -87,6 +90,7 @@ type
     procedure Set_Font(const Value: IFontDisp); safecall;
     procedure Set_FullRepaint(Value: WordBool); safecall;
     procedure Set_Host(const Value: WideString); safecall;
+    procedure Set_JpgURL(const Value: WideString); safecall;
     procedure Set_Locked(Value: WordBool); safecall;
     procedure Set_ParentBackground(Value: WordBool); safecall;
     procedure Set_ParentColor(Value: WordBool); safecall;
@@ -149,6 +153,11 @@ end;
 function TIPCamViewerAx.Get_AlignWithMargins: WordBool;
 begin
   Result := FDelphiControl.AlignWithMargins;
+end;
+
+function TIPCamViewerAx.Get_Autoconnect: WordBool;
+begin
+  Result := FDelphiControl.Autoconnect;
 end;
 
 function TIPCamViewerAx.Get_AutoSize: WordBool;
@@ -249,6 +258,11 @@ end;
 function TIPCamViewerAx.Get_Host: WideString;
 begin
   Result := WideString(FDelphiControl.Host);
+end;
+
+function TIPCamViewerAx.Get_JpgURL: WideString;
+begin
+  Result := WideString(FDelphiControl.JpgURL);
 end;
 
 function TIPCamViewerAx.Get_Locked: WordBool;
@@ -414,6 +428,11 @@ begin
   FDelphiControl.AlignWithMargins := Value;
 end;
 
+procedure TIPCamViewerAx.Set_Autoconnect(Value: WordBool);
+begin
+  FDelphiControl.Autoconnect := Value;
+end;
+
 procedure TIPCamViewerAx.Set_AutoSize(Value: WordBool);
 begin
   FDelphiControl.AutoSize := Value;
@@ -492,6 +511,11 @@ end;
 procedure TIPCamViewerAx.Set_Host(const Value: WideString);
 begin
   FDelphiControl.Host := string(Value);
+end;
+
+procedure TIPCamViewerAx.Set_JpgURL(const Value: WideString);
+begin
+  FDelphiControl.JpgURL := string(Value);
 end;
 
 procedure TIPCamViewerAx.Set_Locked(Value: WordBool);

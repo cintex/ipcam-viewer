@@ -9,7 +9,6 @@ uses
 type
   TTestUnitForm = class(TForm)
     Button1: TButton;
-    Panel1: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -31,7 +30,7 @@ implementation
 
 procedure TTestUnitForm.Button1Click(Sender: TObject);
 begin
-  Viewer.Host := '192.168.1.63';
+  Viewer.Host := '192.168.1.61';
   Viewer.JpgURL := '/imagep/picture.jpg';
   Viewer.Connect;
 end;
@@ -43,6 +42,9 @@ begin
   Viewer.Parent := Self;
   Viewer.Width := 640;
   Viewer.Height := 480;
+  Viewer.Host := '192.168.1.63';
+  Viewer.JpgURL := '/imagep/picture.jpg';
+  Viewer.Autoconnect := True;
 
 
 end;

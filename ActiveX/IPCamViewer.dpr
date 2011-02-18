@@ -3,7 +3,7 @@ library IPCamViewer;
 uses
   ExceptionLog,
   ComServ,
-  IPCamViewerCtrl_TLB in 'IPCamViewerCtrl_TLB.pas',
+  IPCamViewer_TLB in 'IPCamViewer_TLB.pas',
   IPCamViewerAx in 'IPCamViewerAx.pas' {IPCamViewerAx: CoClass},
   IPCamViewerVCL in '..\IPCamViewerVCL.pas';
 

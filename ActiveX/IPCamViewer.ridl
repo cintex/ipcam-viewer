@@ -6,15 +6,15 @@
 // Toutefois, lors de l'application de changements via l'éditeur, ce fichier sera régénéré
 // et les commentaires et les changements de formatage seront perdus.
 // ************************************************************************ //
-// Fichier généré le 17/02/2011 18:13:32 (- $Rev: 12980 $, 34813479).
+// Fichier généré le 18/02/2011 09:59:10 (- $Rev: 12980 $, 4740199).
 
 [
-  uuid(078BEFC3-BAB7-476B-810C-F687E48CB8EF),
+  uuid(86AC8D25-6D76-4A9C-8CA5-F3002EA13788),
   version(1.0),
   control
 
 ]
-library IPCamViewerCtrl
+library IPCamViewer
 {
 
   importlib("stdole2.tlb");
@@ -25,7 +25,7 @@ library IPCamViewerCtrl
 
 
   [
-    uuid(8E1ED201-8796-48FE-A474-C86A5849A96A)
+    uuid(7D88A487-CE88-440C-83E8-7F1CEB074460)
   ]
   enum TxAlignment
   {
@@ -38,7 +38,7 @@ library IPCamViewerCtrl
   };
 
   [
-    uuid(A2575048-0DD3-429A-B49B-2F5CAC22438F)
+    uuid(A0F8900A-9DD0-46C3-A866-BFC24BD0E7B5)
   ]
   enum TxBevelCut
   {
@@ -53,7 +53,7 @@ library IPCamViewerCtrl
   };
 
   [
-    uuid(85CE0147-026F-48E6-B827-A8C8C4A70941)
+    uuid(BF6858A2-AA9E-4572-B702-01F3B03B5731)
   ]
   enum TxBevelKind
   {
@@ -68,7 +68,7 @@ library IPCamViewerCtrl
   };
 
   [
-    uuid(CF650B2A-CC8B-4945-A888-DAD269417EC2)
+    uuid(41A55B6C-CC68-47D9-A40F-A2D59F057B7B)
   ]
   enum TxBorderStyle
   {
@@ -79,7 +79,7 @@ library IPCamViewerCtrl
   };
 
   [
-    uuid(60D90417-4340-420F-8BF6-6F51778EE583)
+    uuid(EA56544E-51A6-43FA-B53A-3CA5C01B149E)
   ]
   enum TxDragMode
   {
@@ -90,7 +90,7 @@ library IPCamViewerCtrl
   };
 
   [
-    uuid(5DA707F5-4C9F-4D70-91AA-A45C7F3F9F6F)
+    uuid(5AF070D9-9930-440E-BB94-29CDC1BA2E14)
   ]
   enum TxVerticalAlignment
   {
@@ -103,7 +103,7 @@ library IPCamViewerCtrl
   };
 
   [
-    uuid(13D66BB9-5B6F-4CA9-A967-E074156706BB)
+    uuid(1819862A-5ACF-46BD-BE7D-8F03C556A2E5)
   ]
   enum TxMouseButton
   {
@@ -121,7 +121,7 @@ library IPCamViewerCtrl
   typedef IFontDisp** PPUserType1;
 
   [
-    uuid(D340B454-B893-42D7-ABF0-CAE159CA52A1),
+    uuid(A6198A87-EF5E-46EB-A143-3F4A8A05BD39),
     helpstring("Interface dispatch pour IPCamViewerAx Contrôle"),
     dual,
     oleautomation
@@ -133,32 +133,40 @@ library IPCamViewerCtrl
     [id(0x000000CA)]
     HRESULT _stdcall Disconnect(void);
     [propget, id(0x000000CB)]
-    HRESULT _stdcall Host([out, retval] BSTR* Value);
+    HRESULT _stdcall Autoconnect([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000CB)]
-    HRESULT _stdcall Host([in] BSTR Value);
+    HRESULT _stdcall Autoconnect([in] VARIANT_BOOL Value);
     [propget, id(0x000000CC)]
-    HRESULT _stdcall Alignment([out, retval] enum TxAlignment* Value);
+    HRESULT _stdcall Host([out, retval] BSTR* Value);
     [propput, id(0x000000CC)]
-    HRESULT _stdcall Alignment([in] enum TxAlignment Value);
+    HRESULT _stdcall Host([in] BSTR Value);
     [propget, id(0x000000CD)]
-    HRESULT _stdcall AutoSize([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall JpgURL([out, retval] BSTR* Value);
     [propput, id(0x000000CD)]
-    HRESULT _stdcall AutoSize([in] VARIANT_BOOL Value);
+    HRESULT _stdcall JpgURL([in] BSTR Value);
     [propget, id(0x000000CE)]
-    HRESULT _stdcall BevelInner([out, retval] enum TxBevelCut* Value);
+    HRESULT _stdcall Alignment([out, retval] enum TxAlignment* Value);
     [propput, id(0x000000CE)]
-    HRESULT _stdcall BevelInner([in] enum TxBevelCut Value);
+    HRESULT _stdcall Alignment([in] enum TxAlignment Value);
     [propget, id(0x000000CF)]
-    HRESULT _stdcall BevelKind([out, retval] enum TxBevelKind* Value);
+    HRESULT _stdcall AutoSize([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000CF)]
-    HRESULT _stdcall BevelKind([in] enum TxBevelKind Value);
+    HRESULT _stdcall AutoSize([in] VARIANT_BOOL Value);
     [propget, id(0x000000D0)]
-    HRESULT _stdcall BevelOuter([out, retval] enum TxBevelCut* Value);
+    HRESULT _stdcall BevelInner([out, retval] enum TxBevelCut* Value);
     [propput, id(0x000000D0)]
-    HRESULT _stdcall BevelOuter([in] enum TxBevelCut Value);
+    HRESULT _stdcall BevelInner([in] enum TxBevelCut Value);
     [propget, id(0x000000D1)]
-    HRESULT _stdcall BorderStyle([out, retval] enum TxBorderStyle* Value);
+    HRESULT _stdcall BevelKind([out, retval] enum TxBevelKind* Value);
     [propput, id(0x000000D1)]
+    HRESULT _stdcall BevelKind([in] enum TxBevelKind Value);
+    [propget, id(0x000000D2)]
+    HRESULT _stdcall BevelOuter([out, retval] enum TxBevelCut* Value);
+    [propput, id(0x000000D2)]
+    HRESULT _stdcall BevelOuter([in] enum TxBevelCut Value);
+    [propget, id(0x000000D3)]
+    HRESULT _stdcall BorderStyle([out, retval] enum TxBorderStyle* Value);
+    [propput, id(0x000000D3)]
     HRESULT _stdcall BorderStyle([in] enum TxBorderStyle Value);
     [propget, id(0xFFFFFDFA)]
     HRESULT _stdcall Caption([out, retval] BSTR* Value);
@@ -168,37 +176,37 @@ library IPCamViewerCtrl
     HRESULT _stdcall Color([out, retval] OLE_COLOR* Value);
     [propput, id(0xFFFFFE0B)]
     HRESULT _stdcall Color([in] OLE_COLOR Value);
-    [propget, id(0x000000D2)]
-    HRESULT _stdcall Ctl3D([out, retval] VARIANT_BOOL* Value);
-    [propput, id(0x000000D2)]
-    HRESULT _stdcall Ctl3D([in] VARIANT_BOOL Value);
-    [propget, id(0x000000D3)]
-    HRESULT _stdcall UseDockManager([out, retval] VARIANT_BOOL* Value);
-    [propput, id(0x000000D3)]
-    HRESULT _stdcall UseDockManager([in] VARIANT_BOOL Value);
     [propget, id(0x000000D4)]
-    HRESULT _stdcall DockSite([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall Ctl3D([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000D4)]
-    HRESULT _stdcall DockSite([in] VARIANT_BOOL Value);
+    HRESULT _stdcall Ctl3D([in] VARIANT_BOOL Value);
     [propget, id(0x000000D5)]
-    HRESULT _stdcall DoubleBuffered([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall UseDockManager([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000D5)]
-    HRESULT _stdcall DoubleBuffered([in] VARIANT_BOOL Value);
+    HRESULT _stdcall UseDockManager([in] VARIANT_BOOL Value);
     [propget, id(0x000000D6)]
-    HRESULT _stdcall DragCursor([out, retval] short* Value);
+    HRESULT _stdcall DockSite([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000D6)]
-    HRESULT _stdcall DragCursor([in] short Value);
+    HRESULT _stdcall DockSite([in] VARIANT_BOOL Value);
     [propget, id(0x000000D7)]
-    HRESULT _stdcall DragMode([out, retval] enum TxDragMode* Value);
+    HRESULT _stdcall DoubleBuffered([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000D7)]
+    HRESULT _stdcall DoubleBuffered([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D8)]
+    HRESULT _stdcall DragCursor([out, retval] short* Value);
+    [propput, id(0x000000D8)]
+    HRESULT _stdcall DragCursor([in] short Value);
+    [propget, id(0x000000D9)]
+    HRESULT _stdcall DragMode([out, retval] enum TxDragMode* Value);
+    [propput, id(0x000000D9)]
     HRESULT _stdcall DragMode([in] enum TxDragMode Value);
     [propget, id(0xFFFFFDFE)]
     HRESULT _stdcall Enabled([out, retval] VARIANT_BOOL* Value);
     [propput, id(0xFFFFFDFE)]
     HRESULT _stdcall Enabled([in] VARIANT_BOOL Value);
-    [propget, id(0x000000D8)]
+    [propget, id(0x000000DA)]
     HRESULT _stdcall FullRepaint([out, retval] VARIANT_BOOL* Value);
-    [propput, id(0x000000D8)]
+    [propput, id(0x000000DA)]
     HRESULT _stdcall FullRepaint([in] VARIANT_BOOL Value);
     [propget, id(0xFFFFFE00)]
     HRESULT _stdcall Font([out, retval] IFontDisp** Value);
@@ -206,78 +214,78 @@ library IPCamViewerCtrl
     HRESULT _stdcall Font([in] IFontDisp* Value);
     [propputref, id(0xFFFFFE00)]
     HRESULT _stdcall Font([in] IFontDisp** Value);
-    [propget, id(0x000000D9)]
-    HRESULT _stdcall Locked([out, retval] VARIANT_BOOL* Value);
-    [propput, id(0x000000D9)]
-    HRESULT _stdcall Locked([in] VARIANT_BOOL Value);
-    [propget, id(0x000000DA)]
-    HRESULT _stdcall ParentBackground([out, retval] VARIANT_BOOL* Value);
-    [propput, id(0x000000DA)]
-    HRESULT _stdcall ParentBackground([in] VARIANT_BOOL Value);
     [propget, id(0x000000DB)]
-    HRESULT _stdcall ParentColor([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall Locked([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000DB)]
-    HRESULT _stdcall ParentColor([in] VARIANT_BOOL Value);
+    HRESULT _stdcall Locked([in] VARIANT_BOOL Value);
     [propget, id(0x000000DC)]
-    HRESULT _stdcall ParentCtl3D([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall ParentBackground([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000DC)]
-    HRESULT _stdcall ParentCtl3D([in] VARIANT_BOOL Value);
+    HRESULT _stdcall ParentBackground([in] VARIANT_BOOL Value);
     [propget, id(0x000000DD)]
-    HRESULT _stdcall ParentDoubleBuffered([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall ParentColor([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000DD)]
-    HRESULT _stdcall ParentDoubleBuffered([in] VARIANT_BOOL Value);
+    HRESULT _stdcall ParentColor([in] VARIANT_BOOL Value);
     [propget, id(0x000000DE)]
-    HRESULT _stdcall ShowCaption([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall ParentCtl3D([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000DE)]
-    HRESULT _stdcall ShowCaption([in] VARIANT_BOOL Value);
+    HRESULT _stdcall ParentCtl3D([in] VARIANT_BOOL Value);
     [propget, id(0x000000DF)]
-    HRESULT _stdcall VerticalAlignment([out, retval] enum TxVerticalAlignment* Value);
+    HRESULT _stdcall ParentDoubleBuffered([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000DF)]
-    HRESULT _stdcall VerticalAlignment([in] enum TxVerticalAlignment Value);
+    HRESULT _stdcall ParentDoubleBuffered([in] VARIANT_BOOL Value);
     [propget, id(0x000000E0)]
-    HRESULT _stdcall Visible([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall ShowCaption([out, retval] VARIANT_BOOL* Value);
     [propput, id(0x000000E0)]
+    HRESULT _stdcall ShowCaption([in] VARIANT_BOOL Value);
+    [propget, id(0x000000E1)]
+    HRESULT _stdcall VerticalAlignment([out, retval] enum TxVerticalAlignment* Value);
+    [propput, id(0x000000E1)]
+    HRESULT _stdcall VerticalAlignment([in] enum TxVerticalAlignment Value);
+    [propget, id(0x000000E2)]
+    HRESULT _stdcall Visible([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000E2)]
     HRESULT _stdcall Visible([in] VARIANT_BOOL Value);
-    [id(0x000000E1)]
+    [id(0x000000E3)]
     HRESULT _stdcall SetDesignVisible([in] VARIANT_BOOL Value);
-    [propget, id(0x000000E2), hidden]
-    HRESULT _stdcall AlignDisabled([out, retval] VARIANT_BOOL* Value);
-    [propget, id(0x000000E3), hidden]
-    HRESULT _stdcall MouseInClient([out, retval] VARIANT_BOOL* Value);
     [propget, id(0x000000E4), hidden]
+    HRESULT _stdcall AlignDisabled([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000E5), hidden]
+    HRESULT _stdcall MouseInClient([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000E6), hidden]
     HRESULT _stdcall VisibleDockClientCount([out, retval] long* Value);
-    [id(0x000000E5)]
-    HRESULT _stdcall DrawTextBiDiModeFlagsReadingOnly([out, retval] long* Value);
-    [id(0x000000E6)]
-    HRESULT _stdcall InitiateAction(void);
     [id(0x000000E7)]
-    HRESULT _stdcall IsRightToLeft([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall DrawTextBiDiModeFlagsReadingOnly([out, retval] long* Value);
     [id(0x000000E8)]
-    HRESULT _stdcall UseRightToLeftReading([out, retval] VARIANT_BOOL* Value);
+    HRESULT _stdcall InitiateAction(void);
     [id(0x000000E9)]
+    HRESULT _stdcall IsRightToLeft([out, retval] VARIANT_BOOL* Value);
+    [id(0x000000EA)]
+    HRESULT _stdcall UseRightToLeftReading([out, retval] VARIANT_BOOL* Value);
+    [id(0x000000EB)]
     HRESULT _stdcall UseRightToLeftScrollBar([out, retval] VARIANT_BOOL* Value);
-    [propget, id(0x000000EA), hidden]
-    HRESULT _stdcall ExplicitLeft([out, retval] long* Value);
-    [propget, id(0x000000EB), hidden]
-    HRESULT _stdcall ExplicitTop([out, retval] long* Value);
     [propget, id(0x000000EC), hidden]
-    HRESULT _stdcall ExplicitWidth([out, retval] long* Value);
+    HRESULT _stdcall ExplicitLeft([out, retval] long* Value);
     [propget, id(0x000000ED), hidden]
+    HRESULT _stdcall ExplicitTop([out, retval] long* Value);
+    [propget, id(0x000000EE), hidden]
+    HRESULT _stdcall ExplicitWidth([out, retval] long* Value);
+    [propget, id(0x000000EF), hidden]
     HRESULT _stdcall ExplicitHeight([out, retval] long* Value);
-    [propget, id(0x000000EE)]
+    [propget, id(0x000000F0)]
     HRESULT _stdcall AlignWithMargins([out, retval] VARIANT_BOOL* Value);
-    [propput, id(0x000000EE)]
+    [propput, id(0x000000F0)]
     HRESULT _stdcall AlignWithMargins([in] VARIANT_BOOL Value);
-    [propget, id(0x000000EF)]
+    [propget, id(0x000000F1)]
     HRESULT _stdcall ParentCustomHint([out, retval] VARIANT_BOOL* Value);
-    [propput, id(0x000000EF)]
+    [propput, id(0x000000F1)]
     HRESULT _stdcall ParentCustomHint([in] VARIANT_BOOL Value);
-    [id(0x000000F0)]
+    [id(0x000000F2)]
     HRESULT _stdcall SetSubComponent([in] VARIANT_BOOL IsSubComponent);
   };
 
   [
-    uuid(45B46F66-FC40-4DC7-8BFC-5F7606C4C44B),
+    uuid(AF33332A-190D-4E25-BF1C-F34024CDB3E4),
     helpstring("Interface d'événements pour IPCamViewerAx Contrôle")
   ]
   dispinterface IIPCamViewerAxEvents
@@ -301,7 +309,7 @@ library IPCamViewerCtrl
   };
 
   [
-    uuid(8FB3F136-96B6-44AC-80EE-BEF071923492),
+    uuid(C73D0C90-5371-4C3E-9446-3D4E7348A158),
     helpstring("IPCamViewerAx Contrôle"),
     control
   ]
