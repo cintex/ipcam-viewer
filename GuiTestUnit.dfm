@@ -2,8 +2,8 @@ object TestUnitForm: TTestUnitForm
   Left = 0
   Top = 0
   Caption = 'TestUnitForm'
-  ClientHeight = 579
-  ClientWidth = 699
+  ClientHeight = 790
+  ClientWidth = 304
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,17 +12,25 @@ object TestUnitForm: TTestUnitForm
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Button1: TButton
     Left = 0
-    Top = 554
-    Width = 699
+    Top = 765
+    Width = 304
     Height = 25
     Align = alBottom
     Caption = 'Button1'
     TabOrder = 0
-    OnClick = Button1Click
+    ExplicitTop = 554
+    ExplicitWidth = 699
+  end
+  object JvThread1: TJvThread
+    Exclusive = True
+    MaxCount = 0
+    RunOnCreate = True
+    FreeOnTerminate = True
+    Left = 24
+    Top = 48
   end
 end

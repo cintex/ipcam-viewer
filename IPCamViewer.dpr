@@ -1,7 +1,6 @@
 program IPCamViewer;
 
 uses
-  ExceptionLog,
   Forms,
   IPCamViewerVCL in 'IPCamViewerVCL.pas',
   GuiTestUnit in 'GuiTestUnit.pas' {TestUnitForm};
