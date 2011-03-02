@@ -1,0 +1,150 @@
+// ************************************************************************ //
+// AVERTISSEMENT
+// -------
+// Ce fichier est généré par l'importateur ou l'éditeur de bibliothèques de types.
+// Sauf les erreurs de syntaxe, l'éditeur analysera les modifications apportées au fichier.
+// Toutefois, lors de l'application de changements via l'éditeur, ce fichier sera régénéré
+// et les commentaires et les changements de formatage seront perdus.
+// ************************************************************************ //
+// Fichier généré le 02/03/2011 11:26:21 (- $Rev: 12980 $, 10187052).
+
+[
+  uuid(B142ACA9-1C67-4D67-B457-2DD68F43ACB5),
+  version(1.0),
+  control
+
+]
+library BarGraph
+{
+
+  importlib("stdole2.tlb");
+
+  interface IBarGraphAx;
+  dispinterface IBarGraphAxEvents;
+  coclass BarGraphAx;
+
+
+  [
+    uuid(D85E4BF8-B7FE-409F-820F-6CA8CF08B74B),
+    helpstring("Interface dispatch pour BarGraphAx Contrôle"),
+    dual,
+    oleautomation
+  ]
+  interface IBarGraphAx: IDispatch
+  {
+    [propget, id(0x000000C9)]
+    HRESULT _stdcall Min([out, retval] long* Value);
+    [propput, id(0x000000C9)]
+    HRESULT _stdcall Min([in] long Value);
+    [propget, id(0x000000CA)]
+    HRESULT _stdcall Max([out, retval] long* Value);
+    [propput, id(0x000000CA)]
+    HRESULT _stdcall Max([in] long Value);
+    [propget, id(0x000000CB)]
+    HRESULT _stdcall Position([out, retval] long* Value);
+    [propput, id(0x000000CB)]
+    HRESULT _stdcall Position([in] long Value);
+    [propget, id(0x000000CC)]
+    HRESULT _stdcall Color1([out, retval] OLE_COLOR* Value);
+    [propput, id(0x000000CC)]
+    HRESULT _stdcall Color1([in] OLE_COLOR Value);
+    [propget, id(0x000000CD)]
+    HRESULT _stdcall Color2([out, retval] OLE_COLOR* Value);
+    [propput, id(0x000000CD)]
+    HRESULT _stdcall Color2([in] OLE_COLOR Value);
+    [propget, id(0x000000CE)]
+    HRESULT _stdcall Quantity([out, retval] long* Value);
+    [propput, id(0x000000CE)]
+    HRESULT _stdcall Quantity([in] long Value);
+    [propget, id(0x000000CF)]
+    HRESULT _stdcall ParentBackground([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000CF)]
+    HRESULT _stdcall ParentBackground([in] VARIANT_BOOL Value);
+    [propget, id(0xFFFFFE0B)]
+    HRESULT _stdcall Color([out, retval] OLE_COLOR* Value);
+    [propput, id(0xFFFFFE0B)]
+    HRESULT _stdcall Color([in] OLE_COLOR Value);
+    [propget, id(0x000000D0), hidden]
+    HRESULT _stdcall DockSite([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D0), hidden]
+    HRESULT _stdcall DockSite([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D1), hidden]
+    HRESULT _stdcall DoubleBuffered([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D1), hidden]
+    HRESULT _stdcall DoubleBuffered([in] VARIANT_BOOL Value);
+    [id(0x000000D2)]
+    HRESULT _stdcall SetDesignVisible([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D3), hidden]
+    HRESULT _stdcall AlignDisabled([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000D4), hidden]
+    HRESULT _stdcall MouseInClient([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000D5), hidden]
+    HRESULT _stdcall VisibleDockClientCount([out, retval] long* Value);
+    [propget, id(0x000000D6), hidden]
+    HRESULT _stdcall ParentDoubleBuffered([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D6), hidden]
+    HRESULT _stdcall ParentDoubleBuffered([in] VARIANT_BOOL Value);
+    [propget, id(0x000000D7), hidden]
+    HRESULT _stdcall UseDockManager([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000D7), hidden]
+    HRESULT _stdcall UseDockManager([in] VARIANT_BOOL Value);
+    [id(0x000000D8)]
+    HRESULT _stdcall DrawTextBiDiModeFlagsReadingOnly([out, retval] long* Value);
+    [propget, id(0xFFFFFDFE), hidden]
+    HRESULT _stdcall Enabled([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0xFFFFFDFE), hidden]
+    HRESULT _stdcall Enabled([in] VARIANT_BOOL Value);
+    [id(0x000000D9)]
+    HRESULT _stdcall InitiateAction(void);
+    [id(0x000000DA)]
+    HRESULT _stdcall IsRightToLeft([out, retval] VARIANT_BOOL* Value);
+    [id(0x000000DB)]
+    HRESULT _stdcall UseRightToLeftReading([out, retval] VARIANT_BOOL* Value);
+    [id(0x000000DC)]
+    HRESULT _stdcall UseRightToLeftScrollBar([out, retval] VARIANT_BOOL* Value);
+    [propget, id(0x000000DD), hidden]
+    HRESULT _stdcall ExplicitLeft([out, retval] long* Value);
+    [propget, id(0x000000DE), hidden]
+    HRESULT _stdcall ExplicitTop([out, retval] long* Value);
+    [propget, id(0x000000DF), hidden]
+    HRESULT _stdcall ExplicitWidth([out, retval] long* Value);
+    [propget, id(0x000000E0), hidden]
+    HRESULT _stdcall ExplicitHeight([out, retval] long* Value);
+    [propget, id(0x000000E1), hidden]
+    HRESULT _stdcall Visible([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000E1), hidden]
+    HRESULT _stdcall Visible([in] VARIANT_BOOL Value);
+    [propget, id(0x000000E2)]
+    HRESULT _stdcall AlignWithMargins([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000E2)]
+    HRESULT _stdcall AlignWithMargins([in] VARIANT_BOOL Value);
+    [propget, id(0x000000E3)]
+    HRESULT _stdcall ParentCustomHint([out, retval] VARIANT_BOOL* Value);
+    [propput, id(0x000000E3)]
+    HRESULT _stdcall ParentCustomHint([in] VARIANT_BOOL Value);
+    [id(0x000000E4)]
+    HRESULT _stdcall SetSubComponent([in] VARIANT_BOOL IsSubComponent);
+  };
+
+  [
+    uuid(593E9A7C-1026-4716-A2A2-77966703868C),
+    helpstring("Interface d'événements pour BarGraphAx Contrôle")
+  ]
+  dispinterface IBarGraphAxEvents
+  {
+    properties:
+    methods:
+  };
+
+  [
+    uuid(0C146C0E-9060-4C4F-BA6E-36701B8BAF51),
+    helpstring("BarGraphAx Contrôle"),
+    control
+  ]
+  coclass BarGraphAx
+  {
+    [default] interface IBarGraphAx;
+    [default, source] dispinterface IBarGraphAxEvents;
+  };
+
+};
