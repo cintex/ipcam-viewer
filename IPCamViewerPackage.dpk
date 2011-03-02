@@ -36,6 +36,7 @@ requires
   JvHMID14R;
 
 contains
-  IPCamViewerVCL in 'IPCamViewerVCL.pas';
+  IPCamViewerVCL in 'IPCamViewerVCL.pas',
+  BarGraphVCL in 'BarGraphVCL.pas';
 
 end.

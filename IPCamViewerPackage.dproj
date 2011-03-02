@@ -50,6 +50,7 @@
 			<DCCReference Include="IndyProtocols.dcp"/>
 			<DCCReference Include="JvHMID14R.dcp"/>
 			<DCCReference Include="IPCamViewerVCL.pas"/>
+			<DCCReference Include="BarGraphVCL.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
