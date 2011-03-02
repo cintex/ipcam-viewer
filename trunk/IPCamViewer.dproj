@@ -52,6 +52,7 @@
 			<DCCReference Include="GuiTestUnit.pas">
 				<Form>TestUnitForm</Form>
 			</DCCReference>
+			<DCCReference Include="BarGraphVCL.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

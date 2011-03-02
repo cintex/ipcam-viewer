@@ -3,7 +3,8 @@ program IPCamViewer;
 uses
   Forms,
   IPCamViewerVCL in 'IPCamViewerVCL.pas',
-  GuiTestUnit in 'GuiTestUnit.pas' {TestUnitForm};
+  GuiTestUnit in 'GuiTestUnit.pas' {TestUnitForm},
+  BarGraphVCL in 'BarGraphVCL.pas';
 
 {$R *.res}
 

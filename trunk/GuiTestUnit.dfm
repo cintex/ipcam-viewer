@@ -2,7 +2,7 @@ object TestUnitForm: TTestUnitForm
   Left = 0
   Top = 0
   Caption = 'TestUnitForm'
-  ClientHeight = 790
+  ClientHeight = 670
   ClientWidth = 304
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -14,23 +14,16 @@ object TestUnitForm: TTestUnitForm
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Button1: TButton
+  object TrackBar1: TTrackBar
     Left = 0
-    Top = 765
+    Top = 625
     Width = 304
-    Height = 25
+    Height = 45
     Align = alBottom
-    Caption = 'Button1'
     TabOrder = 0
-    ExplicitTop = 554
-    ExplicitWidth = 699
-  end
-  object JvThread1: TJvThread
-    Exclusive = True
-    MaxCount = 0
-    RunOnCreate = True
-    FreeOnTerminate = True
-    Left = 24
-    Top = 48
+    OnChange = TrackBar1Change
+    ExplicitLeft = 232
+    ExplicitTop = 424
+    ExplicitWidth = 150
   end
 end

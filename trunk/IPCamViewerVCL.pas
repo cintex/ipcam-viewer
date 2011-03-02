@@ -113,7 +113,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('GLDali', [TIPCamViewerVCL]);
+  RegisterComponents('Samples', [TIPCamViewerVCL]);
 end;
 
 function IsWrongIP(ip: string): Boolean;
