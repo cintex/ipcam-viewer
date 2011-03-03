@@ -6,7 +6,7 @@
 // Toutefois, lors de l'application de changements via l'éditeur, ce fichier sera régénéré
 // et les commentaires et les changements de formatage seront perdus.
 // ************************************************************************ //
-// Fichier généré le 02/03/2011 11:26:21 (- $Rev: 12980 $, 10187052).
+// Fichier généré le 03/03/2011 10:57:36 (- $Rev: 12980 $, 8073675).
 
 [
   uuid(B142ACA9-1C67-4D67-B457-2DD68F43ACB5),
@@ -26,7 +26,7 @@ library BarGraph
 
   [
     uuid(D85E4BF8-B7FE-409F-820F-6CA8CF08B74B),
-    helpstring("Interface dispatch pour BarGraphAx Contrôle"),
+    helpstring("Interface dispatch pour BarGraphAx Ctrl"),
     dual,
     oleautomation
   ]
@@ -128,7 +128,7 @@ library BarGraph
 
   [
     uuid(593E9A7C-1026-4716-A2A2-77966703868C),
-    helpstring("Interface d'événements pour BarGraphAx Contrôle")
+    helpstring("Interface d'événements pour BarGraphAx Ctrl")
   ]
   dispinterface IBarGraphAxEvents
   {
@@ -138,7 +138,7 @@ library BarGraph
 
   [
     uuid(0C146C0E-9060-4C4F-BA6E-36701B8BAF51),
-    helpstring("BarGraphAx Contrôle"),
+    helpstring("BarGraphAx Ctrl"),
     control
   ]
   coclass BarGraphAx
