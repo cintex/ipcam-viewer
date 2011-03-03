@@ -36,6 +36,7 @@ type
     procedure ComputeColors;
     procedure ApplyColors;
     procedure UpdatePosition;
+    procedure UpdateSize;
     procedure Loaded; override;
     procedure Resize; override;
   public
@@ -89,7 +90,6 @@ begin
 
   FBarList := TBarList.Create;
   Rebuild;
-  ComputeColors;
 end;
 
 destructor TBarGraph.Destroy;
@@ -102,6 +102,8 @@ procedure TBarGraph.Loaded;
 begin
   inherited;
 
+  UpdateSize;
+  UpdatePosition
 end;
 
 procedure TBarGraph.Rebuild;
@@ -122,10 +124,15 @@ begin
 end;
 
 procedure TBarGraph.Resize;
+begin
+  inherited;
+  UpdateSize;
+end;
+
+procedure TBarGraph.UpdateSize;
 var
   i, NewLeft: Integer;
 begin
-  inherited;
   NewLeft := 0;
   for i := 0 to FBarList.Count - 1 do
   begin
@@ -138,7 +145,6 @@ begin
     NewLeft := NewLeft + FBarList[i].Width;
   end;
 end;
-
 procedure TBarGraph.ApplyColors;
 var
   i: Integer;
@@ -210,6 +216,8 @@ begin
     FBarList[i].Visible := (FMin + i < FPosition);
   end;
 end;
+
+
 
 procedure TBarGraph.SetColor1(const Value: TColor);
 begin
