@@ -76,33 +76,29 @@ type
     IPAddress: TLabel;
     CxStatus: TLedPanel;
     RxTx: TLedPanel;
-
     procedure UpdateTimer(Sender: TObject);
   private
     FThread : TIPCamThread;
     FHost: string;
     FJpgURL: string;
     FAutoconnect: Boolean;
+    FPort: Word;
     procedure SetHost(const Value: string);
     procedure SetJpgURL(const Value: string);
     procedure SetAutoconnect(const Value: Boolean);
+    procedure SetPort(const Value: Word);
   protected
     procedure Loaded; override;
-    { Déclarations privées }
-
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-
   published
-
     procedure Connect;
     procedure Disconnect;
     property Autoconnect : Boolean read FAutoconnect write SetAutoconnect;
     property Host : string read FHost write SetHost;
+    property Port: Word read FPort write SetPort default 80;
     property JpgURL : string read FJpgURL write SetJpgURL;
-    { Déclarations publiques }
-
   end;
 
 
@@ -185,6 +181,7 @@ end;
 constructor TIPCamViewerVCL.Create(AOwner: TComponent);
 begin
   inherited;
+  FPort := 80;
   FThread := TIPCamThread.Create(false);
   FThread.FIPCamViewer := Self;
 
@@ -378,6 +375,11 @@ begin
   FJpgURL := Value;
 end;
 
+procedure TIPCamViewerVCL.SetPort(const Value: Word);
+begin
+  FPort := Value;
+end;
+
 { TLedPanel }
 
 constructor TLedPanel.Create(AOwner: TComponent);
@@ -460,7 +462,7 @@ begin
       begin
         try
           JpgStream := TMemoryStream.Create;
-          Fwget.Get('http://'+FHost+FJpgURL, JpgStream);
+          Fwget.Get(Format('http://%s:%d%s', [FHost, FPort, FJpgURL]), JpgStream);
           JpgStream.Position := 0;
           FPicture.LoadFromStream(JpgStream);
           Result := ipcOk;
