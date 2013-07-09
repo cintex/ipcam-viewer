@@ -6,7 +6,7 @@ interface
 
 uses
   Windows, ActiveX, Classes, Controls, Graphics, Menus, Forms, StdCtrls,
-  ComServ, StdVCL, AXCtrls, IPCamViewer_TLB, IPCamViewerVCL, ExtCtrls;
+  ComServ, StdVCL, AXCtrls, IPCamViewer_TLB, IPCamViewerVCL, Vcl.ExtCtrls;
 
 type
   TIPCamViewerAx = class(TActiveXControl, IIPCamViewerAx)
@@ -35,7 +35,9 @@ type
     function Get_BevelInner: TxBevelCut; safecall;
     function Get_BevelKind: TxBevelKind; safecall;
     function Get_BevelOuter: TxBevelCut; safecall;
+    function Get_BevelWidth: Integer; safecall;
     function Get_BorderStyle: TxBorderStyle; safecall;
+    function Get_BorderWidth: Integer; safecall;
     function Get_Caption: WideString; safecall;
     function Get_Color: OLE_COLOR; safecall;
     function Get_Ctl3D: WordBool; safecall;
@@ -59,12 +61,15 @@ type
     function Get_ParentCtl3D: WordBool; safecall;
     function Get_ParentCustomHint: WordBool; safecall;
     function Get_ParentDoubleBuffered: WordBool; safecall;
+    function Get_Port: Word; safecall;
     function Get_ShowCaption: WordBool; safecall;
     function Get_UseDockManager: WordBool; safecall;
     function Get_VerticalAlignment: TxVerticalAlignment; safecall;
     function Get_Visible: WordBool; safecall;
     function Get_VisibleDockClientCount: Integer; safecall;
     function IsRightToLeft: WordBool; safecall;
+    function QualifiedClassName: WideString; safecall;
+    function UnitScope: WideString; safecall;
     function UseRightToLeftReading: WordBool; safecall;
     function UseRightToLeftScrollBar: WordBool; safecall;
     procedure _Set_Font(var Value: IFontDisp); safecall;
@@ -78,7 +83,9 @@ type
     procedure Set_BevelInner(Value: TxBevelCut); safecall;
     procedure Set_BevelKind(Value: TxBevelKind); safecall;
     procedure Set_BevelOuter(Value: TxBevelCut); safecall;
+    procedure Set_BevelWidth(Value: Integer); safecall;
     procedure Set_BorderStyle(Value: TxBorderStyle); safecall;
+    procedure Set_BorderWidth(Value: Integer); safecall;
     procedure Set_Caption(const Value: WideString); safecall;
     procedure Set_Color(Value: OLE_COLOR); safecall;
     procedure Set_Ctl3D(Value: WordBool); safecall;
@@ -97,6 +104,7 @@ type
     procedure Set_ParentCtl3D(Value: WordBool); safecall;
     procedure Set_ParentCustomHint(Value: WordBool); safecall;
     procedure Set_ParentDoubleBuffered(Value: WordBool); safecall;
+    procedure Set_Port(Value: Word); safecall;
     procedure Set_ShowCaption(Value: WordBool); safecall;
     procedure Set_UseDockManager(Value: WordBool); safecall;
     procedure Set_VerticalAlignment(Value: TxVerticalAlignment); safecall;
@@ -113,8 +121,8 @@ uses ComObj, ImgList;
 
 procedure TIPCamViewerAx.DefinePropertyPages(DefinePropertyPage: TDefinePropertyPage);
 begin
-  {TODO: Définir des pages de propriétés ici. Les pages de propriétés sont définies en
-   appelant DefinePropertyPage avec l'id de classe de la page. Exemple :
+  {TODO : Définir les pages de propriétés ici.  Les pages de propriétés sont définies en appelant
+    DefinePropertyPage avec l'id de classe de la page.  Par exemple,
       DefinePropertyPage(Class_IPCamViewerAxPage); }
 end;
 
@@ -180,9 +188,19 @@ begin
   Result := Ord(FDelphiControl.BevelOuter);
 end;
 
+function TIPCamViewerAx.Get_BevelWidth: Integer;
+begin
+  Result := Integer(FDelphiControl.BevelWidth);
+end;
+
 function TIPCamViewerAx.Get_BorderStyle: TxBorderStyle;
 begin
   Result := Ord(FDelphiControl.BorderStyle);
+end;
+
+function TIPCamViewerAx.Get_BorderWidth: Integer;
+begin
+  Result := Integer(FDelphiControl.BorderWidth);
 end;
 
 function TIPCamViewerAx.Get_Caption: WideString;
@@ -300,6 +318,11 @@ begin
   Result := FDelphiControl.ParentDoubleBuffered;
 end;
 
+function TIPCamViewerAx.Get_Port: Word;
+begin
+  Result := FDelphiControl.Port;
+end;
+
 function TIPCamViewerAx.Get_ShowCaption: WordBool;
 begin
   Result := FDelphiControl.ShowCaption;
@@ -328,6 +351,16 @@ end;
 function TIPCamViewerAx.IsRightToLeft: WordBool;
 begin
   Result := FDelphiControl.IsRightToLeft;
+end;
+
+function TIPCamViewerAx.QualifiedClassName: WideString;
+begin
+  Result := FDelphiControl.QualifiedClassName;
+end;
+
+function TIPCamViewerAx.UnitScope: WideString;
+begin
+  Result := FDelphiControl.UnitScope;
 end;
 
 function TIPCamViewerAx.UseRightToLeftReading: WordBool;
@@ -453,9 +486,19 @@ begin
   FDelphiControl.BevelOuter := TBevelCut(Value);
 end;
 
+procedure TIPCamViewerAx.Set_BevelWidth(Value: Integer);
+begin
+  FDelphiControl.BevelWidth := TBevelWidth(Value);
+end;
+
 procedure TIPCamViewerAx.Set_BorderStyle(Value: TxBorderStyle);
 begin
   FDelphiControl.BorderStyle := TBorderStyle(Value);
+end;
+
+procedure TIPCamViewerAx.Set_BorderWidth(Value: Integer);
+begin
+  FDelphiControl.BorderWidth := TBorderWidth(Value);
 end;
 
 procedure TIPCamViewerAx.Set_Caption(const Value: WideString);
@@ -548,6 +591,11 @@ begin
   FDelphiControl.ParentDoubleBuffered := Value;
 end;
 
+procedure TIPCamViewerAx.Set_Port(Value: Word);
+begin
+  FDelphiControl.Port := Value;
+end;
+
 procedure TIPCamViewerAx.Set_ShowCaption(Value: WordBool);
 begin
   FDelphiControl.ShowCaption := Value;
@@ -584,7 +632,7 @@ initialization
     TIPCamViewerAx,
     TIPCamViewerVCL,
     Class_IPCamViewerAx,
-    1,
+    0,
     '',
     0,
     tmApartment);
