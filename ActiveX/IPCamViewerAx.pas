@@ -30,6 +30,7 @@ type
     function Get_AlignDisabled: WordBool; safecall;
     function Get_Alignment: TxAlignment; safecall;
     function Get_AlignWithMargins: WordBool; safecall;
+    function Get_Autocapture: WordBool; safecall;
     function Get_Autoconnect: WordBool; safecall;
     function Get_AutoSize: WordBool; safecall;
     function Get_BevelInner: TxBevelCut; safecall;
@@ -38,7 +39,10 @@ type
     function Get_BevelWidth: Integer; safecall;
     function Get_BorderStyle: TxBorderStyle; safecall;
     function Get_BorderWidth: Integer; safecall;
+    function Get_CameraName: WideString; safecall;
     function Get_Caption: WideString; safecall;
+    function Get_CaptureInterval: LongWord; safecall;
+    function Get_CapturePath: WideString; safecall;
     function Get_Color: OLE_COLOR; safecall;
     function Get_Ctl3D: WordBool; safecall;
     function Get_DockSite: WordBool; safecall;
@@ -61,12 +65,15 @@ type
     function Get_ParentCtl3D: WordBool; safecall;
     function Get_ParentCustomHint: WordBool; safecall;
     function Get_ParentDoubleBuffered: WordBool; safecall;
+    function Get_Password: WideString; safecall;
     function Get_Port: Word; safecall;
     function Get_ShowCaption: WordBool; safecall;
     function Get_UseDockManager: WordBool; safecall;
+    function Get_Username: WideString; safecall;
     function Get_VerticalAlignment: TxVerticalAlignment; safecall;
     function Get_Visible: WordBool; safecall;
     function Get_VisibleDockClientCount: Integer; safecall;
+    function Get_WaitTime: Word; safecall;
     function IsRightToLeft: WordBool; safecall;
     function QualifiedClassName: WideString; safecall;
     function UnitScope: WideString; safecall;
@@ -78,6 +85,7 @@ type
     procedure InitiateAction; safecall;
     procedure Set_Alignment(Value: TxAlignment); safecall;
     procedure Set_AlignWithMargins(Value: WordBool); safecall;
+    procedure Set_Autocapture(Value: WordBool); safecall;
     procedure Set_Autoconnect(Value: WordBool); safecall;
     procedure Set_AutoSize(Value: WordBool); safecall;
     procedure Set_BevelInner(Value: TxBevelCut); safecall;
@@ -86,7 +94,10 @@ type
     procedure Set_BevelWidth(Value: Integer); safecall;
     procedure Set_BorderStyle(Value: TxBorderStyle); safecall;
     procedure Set_BorderWidth(Value: Integer); safecall;
+    procedure Set_CameraName(const Value: WideString); safecall;
     procedure Set_Caption(const Value: WideString); safecall;
+    procedure Set_CaptureInterval(Value: LongWord); safecall;
+    procedure Set_CapturePath(const Value: WideString); safecall;
     procedure Set_Color(Value: OLE_COLOR); safecall;
     procedure Set_Ctl3D(Value: WordBool); safecall;
     procedure Set_DockSite(Value: WordBool); safecall;
@@ -104,11 +115,14 @@ type
     procedure Set_ParentCtl3D(Value: WordBool); safecall;
     procedure Set_ParentCustomHint(Value: WordBool); safecall;
     procedure Set_ParentDoubleBuffered(Value: WordBool); safecall;
+    procedure Set_Password(const Value: WideString); safecall;
     procedure Set_Port(Value: Word); safecall;
     procedure Set_ShowCaption(Value: WordBool); safecall;
     procedure Set_UseDockManager(Value: WordBool); safecall;
+    procedure Set_Username(const Value: WideString); safecall;
     procedure Set_VerticalAlignment(Value: TxVerticalAlignment); safecall;
     procedure Set_Visible(Value: WordBool); safecall;
+    procedure Set_WaitTime(Value: Word); safecall;
     procedure SetDesignVisible(Value: WordBool); safecall;
     procedure SetSubComponent(IsSubComponent: WordBool); safecall;
   end;
@@ -163,6 +177,11 @@ begin
   Result := FDelphiControl.AlignWithMargins;
 end;
 
+function TIPCamViewerAx.Get_Autocapture: WordBool;
+begin
+  Result := FDelphiControl.Autocapture;
+end;
+
 function TIPCamViewerAx.Get_Autoconnect: WordBool;
 begin
   Result := FDelphiControl.Autoconnect;
@@ -203,9 +222,24 @@ begin
   Result := Integer(FDelphiControl.BorderWidth);
 end;
 
+function TIPCamViewerAx.Get_CameraName: WideString;
+begin
+  Result := WideString(FDelphiControl.CameraName);
+end;
+
 function TIPCamViewerAx.Get_Caption: WideString;
 begin
   Result := WideString(FDelphiControl.Caption);
+end;
+
+function TIPCamViewerAx.Get_CaptureInterval: LongWord;
+begin
+  Result := LongWord(FDelphiControl.CaptureInterval);
+end;
+
+function TIPCamViewerAx.Get_CapturePath: WideString;
+begin
+  Result := WideString(FDelphiControl.CapturePath);
 end;
 
 function TIPCamViewerAx.Get_Color: OLE_COLOR;
@@ -318,6 +352,11 @@ begin
   Result := FDelphiControl.ParentDoubleBuffered;
 end;
 
+function TIPCamViewerAx.Get_Password: WideString;
+begin
+  Result := WideString(FDelphiControl.Password);
+end;
+
 function TIPCamViewerAx.Get_Port: Word;
 begin
   Result := FDelphiControl.Port;
@@ -333,6 +372,11 @@ begin
   Result := FDelphiControl.UseDockManager;
 end;
 
+function TIPCamViewerAx.Get_Username: WideString;
+begin
+  Result := WideString(FDelphiControl.Username);
+end;
+
 function TIPCamViewerAx.Get_VerticalAlignment: TxVerticalAlignment;
 begin
   Result := Ord(FDelphiControl.VerticalAlignment);
@@ -346,6 +390,11 @@ end;
 function TIPCamViewerAx.Get_VisibleDockClientCount: Integer;
 begin
   Result := FDelphiControl.VisibleDockClientCount;
+end;
+
+function TIPCamViewerAx.Get_WaitTime: Word;
+begin
+  Result := FDelphiControl.WaitTime;
 end;
 
 function TIPCamViewerAx.IsRightToLeft: WordBool;
@@ -461,6 +510,11 @@ begin
   FDelphiControl.AlignWithMargins := Value;
 end;
 
+procedure TIPCamViewerAx.Set_Autocapture(Value: WordBool);
+begin
+  FDelphiControl.Autocapture := Value;
+end;
+
 procedure TIPCamViewerAx.Set_Autoconnect(Value: WordBool);
 begin
   FDelphiControl.Autoconnect := Value;
@@ -501,9 +555,24 @@ begin
   FDelphiControl.BorderWidth := TBorderWidth(Value);
 end;
 
+procedure TIPCamViewerAx.Set_CameraName(const Value: WideString);
+begin
+  FDelphiControl.CameraName := string(Value);
+end;
+
 procedure TIPCamViewerAx.Set_Caption(const Value: WideString);
 begin
   FDelphiControl.Caption := TCaption(Value);
+end;
+
+procedure TIPCamViewerAx.Set_CaptureInterval(Value: LongWord);
+begin
+  FDelphiControl.CaptureInterval := Cardinal(Value);
+end;
+
+procedure TIPCamViewerAx.Set_CapturePath(const Value: WideString);
+begin
+  FDelphiControl.CapturePath := string(Value);
 end;
 
 procedure TIPCamViewerAx.Set_Color(Value: OLE_COLOR);
@@ -591,6 +660,11 @@ begin
   FDelphiControl.ParentDoubleBuffered := Value;
 end;
 
+procedure TIPCamViewerAx.Set_Password(const Value: WideString);
+begin
+  FDelphiControl.Password := string(Value);
+end;
+
 procedure TIPCamViewerAx.Set_Port(Value: Word);
 begin
   FDelphiControl.Port := Value;
@@ -606,6 +680,11 @@ begin
   FDelphiControl.UseDockManager := Value;
 end;
 
+procedure TIPCamViewerAx.Set_Username(const Value: WideString);
+begin
+  FDelphiControl.Username := string(Value);
+end;
+
 procedure TIPCamViewerAx.Set_VerticalAlignment(Value: TxVerticalAlignment);
 begin
   FDelphiControl.VerticalAlignment := TVerticalAlignment(Value);
@@ -614,6 +693,11 @@ end;
 procedure TIPCamViewerAx.Set_Visible(Value: WordBool);
 begin
   FDelphiControl.Visible := Value;
+end;
+
+procedure TIPCamViewerAx.Set_WaitTime(Value: Word);
+begin
+  FDelphiControl.WaitTime := Value;
 end;
 
 procedure TIPCamViewerAx.SetDesignVisible(Value: WordBool);
