@@ -12,11 +12,11 @@ unit IPCamViewer_TLB;
 // ************************************************************************ //
 
 // $Rev: 45604 $
-// Fichier généré le 08/07/2013 17:03:49 depuis la bibliothèque de types ci-dessous.
+// Fichier généré le 12/07/2013 14:41:27 depuis la bibliothèque de types ci-dessous.
 
 // ************************************************************************  //
 // Biblio. types : C:\Users\Yann\Documents\temp\ipcam-viewer\ActiveX\IPCamViewer (1)
-// LIBID : {B10193AD-4992-4157-A9E5-F70B0972C657}
+// LIBID : {FCEAD529-747B-4D9E-BBEB-F3E5F7A3F3AC}
 // LCID : 0
 // Fichier d'aide :
 // Chaîne d'aide :
@@ -46,11 +46,11 @@ const
   IPCamViewerMajorVersion = 1;
   IPCamViewerMinorVersion = 0;
 
-  LIBID_IPCamViewer: TGUID = '{B10193AD-4992-4157-A9E5-F70B0972C657}';
+  LIBID_IPCamViewer: TGUID = '{FCEAD529-747B-4D9E-BBEB-F3E5F7A3F3AC}';
 
-  IID_IIPCamViewerAx: TGUID = '{CC29466E-32EC-4423-988F-1333233560FC}';
-  DIID_IIPCamViewerAxEvents: TGUID = '{0AD441BA-A311-4B1C-8477-53959A0C3F23}';
-  CLASS_IPCamViewerAx: TGUID = '{AFC8FF50-EF3C-4E15-BB28-1B40B44631EA}';
+  IID_IIPCamViewerAx: TGUID = '{1BD00DE1-2E80-432D-AB6E-81DF51736E60}';
+  DIID_IIPCamViewerAxEvents: TGUID = '{DB87D671-836A-49C2-AB24-DEC7C9B5B013}';
+  CLASS_IPCamViewerAx: TGUID = '{1FB3A204-8D3C-43EA-B004-BD18BE79227E}';
 
 // *********************************************************************//
 // Déclaration d'énumérations définies dans la bibliothèque de types
@@ -136,20 +136,34 @@ type
 // *********************************************************************//
 // Interface :   IIPCamViewerAx
 // Indicateurs : (4416) Dual OleAutomation Dispatchable
-// GUID :        {CC29466E-32EC-4423-988F-1333233560FC}
+// GUID :        {1BD00DE1-2E80-432D-AB6E-81DF51736E60}
 // *********************************************************************//
   IIPCamViewerAx = interface(IDispatch)
-    ['{CC29466E-32EC-4423-988F-1333233560FC}']
+    ['{1BD00DE1-2E80-432D-AB6E-81DF51736E60}']
     procedure Connect; safecall;
     procedure Disconnect; safecall;
     function Get_Autoconnect: WordBool; safecall;
     procedure Set_Autoconnect(Value: WordBool); safecall;
+    function Get_Autocapture: WordBool; safecall;
+    procedure Set_Autocapture(Value: WordBool); safecall;
     function Get_Host: WideString; safecall;
     procedure Set_Host(const Value: WideString); safecall;
     function Get_Port: Word; safecall;
     procedure Set_Port(Value: Word); safecall;
     function Get_JpgURL: WideString; safecall;
     procedure Set_JpgURL(const Value: WideString); safecall;
+    function Get_Username: WideString; safecall;
+    procedure Set_Username(const Value: WideString); safecall;
+    function Get_Password: WideString; safecall;
+    procedure Set_Password(const Value: WideString); safecall;
+    function Get_WaitTime: Word; safecall;
+    procedure Set_WaitTime(Value: Word); safecall;
+    function Get_CapturePath: WideString; safecall;
+    procedure Set_CapturePath(const Value: WideString); safecall;
+    function Get_CaptureInterval: LongWord; safecall;
+    procedure Set_CaptureInterval(Value: LongWord); safecall;
+    function Get_CameraName: WideString; safecall;
+    procedure Set_CameraName(const Value: WideString); safecall;
     function Get_Alignment: TxAlignment; safecall;
     procedure Set_Alignment(Value: TxAlignment); safecall;
     function Get_AutoSize: WordBool; safecall;
@@ -226,9 +240,16 @@ type
     function QualifiedClassName: WideString; safecall;
     function UnitScope: WideString; safecall;
     property Autoconnect: WordBool read Get_Autoconnect write Set_Autoconnect;
+    property Autocapture: WordBool read Get_Autocapture write Set_Autocapture;
     property Host: WideString read Get_Host write Set_Host;
     property Port: Word read Get_Port write Set_Port;
     property JpgURL: WideString read Get_JpgURL write Set_JpgURL;
+    property Username: WideString read Get_Username write Set_Username;
+    property Password: WideString read Get_Password write Set_Password;
+    property WaitTime: Word read Get_WaitTime write Set_WaitTime;
+    property CapturePath: WideString read Get_CapturePath write Set_CapturePath;
+    property CaptureInterval: LongWord read Get_CaptureInterval write Set_CaptureInterval;
+    property CameraName: WideString read Get_CameraName write Set_CameraName;
     property Alignment: TxAlignment read Get_Alignment write Set_Alignment;
     property AutoSize: WordBool read Get_AutoSize write Set_AutoSize;
     property BevelInner: TxBevelCut read Get_BevelInner write Set_BevelInner;
@@ -270,70 +291,77 @@ type
 // *********************************************************************//
 // DispIntf :    IIPCamViewerAxDisp
 // Indicateurs : (4416) Dual OleAutomation Dispatchable
-// GUID :        {CC29466E-32EC-4423-988F-1333233560FC}
+// GUID :        {1BD00DE1-2E80-432D-AB6E-81DF51736E60}
 // *********************************************************************//
   IIPCamViewerAxDisp = dispinterface
-    ['{CC29466E-32EC-4423-988F-1333233560FC}']
+    ['{1BD00DE1-2E80-432D-AB6E-81DF51736E60}']
     procedure Connect; dispid 201;
     procedure Disconnect; dispid 202;
     property Autoconnect: WordBool dispid 203;
-    property Host: WideString dispid 204;
-    property Port: Word dispid 205;
-    property JpgURL: WideString dispid 206;
-    property Alignment: TxAlignment dispid 207;
-    property AutoSize: WordBool dispid 208;
-    property BevelInner: TxBevelCut dispid 209;
-    property BevelKind: TxBevelKind dispid 210;
-    property BevelOuter: TxBevelCut dispid 211;
-    property BevelWidth: Integer dispid 212;
-    property BorderWidth: Integer dispid 213;
-    property BorderStyle: TxBorderStyle dispid 214;
+    property Autocapture: WordBool dispid 204;
+    property Host: WideString dispid 205;
+    property Port: Word dispid 206;
+    property JpgURL: WideString dispid 207;
+    property Username: WideString dispid 208;
+    property Password: WideString dispid 209;
+    property WaitTime: Word dispid 210;
+    property CapturePath: WideString dispid 211;
+    property CaptureInterval: LongWord dispid 212;
+    property CameraName: WideString dispid 213;
+    property Alignment: TxAlignment dispid 214;
+    property AutoSize: WordBool dispid 215;
+    property BevelInner: TxBevelCut dispid 216;
+    property BevelKind: TxBevelKind dispid 217;
+    property BevelOuter: TxBevelCut dispid 218;
+    property BevelWidth: Integer dispid 219;
+    property BorderWidth: Integer dispid 220;
+    property BorderStyle: TxBorderStyle dispid 221;
     property Caption: WideString dispid -518;
     property Color: OLE_COLOR dispid -501;
-    property Ctl3D: WordBool dispid 215;
-    property UseDockManager: WordBool dispid 216;
-    property DockSite: WordBool dispid 217;
-    property DoubleBuffered: WordBool dispid 218;
-    property DragCursor: Smallint dispid 219;
-    property DragMode: TxDragMode dispid 220;
+    property Ctl3D: WordBool dispid 222;
+    property UseDockManager: WordBool dispid 223;
+    property DockSite: WordBool dispid 224;
+    property DoubleBuffered: WordBool dispid 225;
+    property DragCursor: Smallint dispid 226;
+    property DragMode: TxDragMode dispid 227;
     property Enabled: WordBool dispid -514;
-    property FullRepaint: WordBool dispid 221;
+    property FullRepaint: WordBool dispid 228;
     property Font: IFontDisp dispid -512;
-    property Locked: WordBool dispid 222;
-    property ParentBackground: WordBool dispid 223;
-    property ParentColor: WordBool dispid 224;
-    property ParentCtl3D: WordBool dispid 225;
-    property ParentDoubleBuffered: WordBool dispid 226;
-    property ShowCaption: WordBool dispid 227;
-    property VerticalAlignment: TxVerticalAlignment dispid 228;
-    property Visible: WordBool dispid 229;
-    procedure SetDesignVisible(Value: WordBool); dispid 230;
-    property AlignDisabled: WordBool readonly dispid 231;
-    property MouseInClient: WordBool readonly dispid 232;
-    property VisibleDockClientCount: Integer readonly dispid 233;
-    function DrawTextBiDiModeFlagsReadingOnly: Integer; dispid 234;
-    procedure InitiateAction; dispid 235;
-    function IsRightToLeft: WordBool; dispid 236;
-    function UseRightToLeftReading: WordBool; dispid 237;
-    function UseRightToLeftScrollBar: WordBool; dispid 238;
-    property ExplicitLeft: Integer readonly dispid 239;
-    property ExplicitTop: Integer readonly dispid 240;
-    property ExplicitWidth: Integer readonly dispid 241;
-    property ExplicitHeight: Integer readonly dispid 242;
-    property AlignWithMargins: WordBool dispid 243;
-    property ParentCustomHint: WordBool dispid 244;
-    procedure SetSubComponent(IsSubComponent: WordBool); dispid 245;
-    function QualifiedClassName: WideString; dispid 246;
-    function UnitScope: WideString; dispid 247;
+    property Locked: WordBool dispid 229;
+    property ParentBackground: WordBool dispid 230;
+    property ParentColor: WordBool dispid 231;
+    property ParentCtl3D: WordBool dispid 232;
+    property ParentDoubleBuffered: WordBool dispid 233;
+    property ShowCaption: WordBool dispid 234;
+    property VerticalAlignment: TxVerticalAlignment dispid 235;
+    property Visible: WordBool dispid 236;
+    procedure SetDesignVisible(Value: WordBool); dispid 237;
+    property AlignDisabled: WordBool readonly dispid 238;
+    property MouseInClient: WordBool readonly dispid 239;
+    property VisibleDockClientCount: Integer readonly dispid 240;
+    function DrawTextBiDiModeFlagsReadingOnly: Integer; dispid 241;
+    procedure InitiateAction; dispid 242;
+    function IsRightToLeft: WordBool; dispid 243;
+    function UseRightToLeftReading: WordBool; dispid 244;
+    function UseRightToLeftScrollBar: WordBool; dispid 245;
+    property ExplicitLeft: Integer readonly dispid 246;
+    property ExplicitTop: Integer readonly dispid 247;
+    property ExplicitWidth: Integer readonly dispid 248;
+    property ExplicitHeight: Integer readonly dispid 249;
+    property AlignWithMargins: WordBool dispid 250;
+    property ParentCustomHint: WordBool dispid 251;
+    procedure SetSubComponent(IsSubComponent: WordBool); dispid 252;
+    function QualifiedClassName: WideString; dispid 253;
+    function UnitScope: WideString; dispid 254;
   end;
 
 // *********************************************************************//
 // DispIntf :    IIPCamViewerAxEvents
 // Indicateurs : (0)
-// GUID :        {0AD441BA-A311-4B1C-8477-53959A0C3F23}
+// GUID :        {DB87D671-836A-49C2-AB24-DEC7C9B5B013}
 // *********************************************************************//
   IIPCamViewerAxEvents = dispinterface
-    ['{0AD441BA-A311-4B1C-8477-53959A0C3F23}']
+    ['{DB87D671-836A-49C2-AB24-DEC7C9B5B013}']
     procedure OnCanResize(var NewWidth: Integer; var NewHeight: Integer; var Resize: WordBool); dispid 201;
     procedure OnClick; dispid 202;
     procedure OnConstrainedResize(var MinWidth: Integer; var MinHeight: Integer;
