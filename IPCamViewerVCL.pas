@@ -20,6 +20,7 @@ uses
   IdTCPConnection,
   IdTCPClient,
   IdHTTP,
+  IdAuthentication,
   IdIOHandler,
   IdIOHandlerSocket,
   IdIOHandlerStack;
@@ -57,38 +58,57 @@ type
 
   TIPCamThread = class(TThread)
   private
-    FWorking : Boolean;
+    procedure OnAuthorization(Sender: TObject; Authentication: TIdAuthentication; var Handled: Boolean);
   protected
-    FIPCamViewer : TIPCamViewerVCL;
+    FGui: TIPCamViewerVCL;
+    FName: string;
     FPicture : TJPEGImage;
     Fwget: TIdHTTP;
+    FLastCapture: Cardinal;
     procedure Execute; override;
+    procedure UpdateGui;
   public
-    Result : TIPCamResult ;
-    constructor Create(CreateSuspended:boolean);
+    FResult : TIPCamResult ;
+    constructor Create(CreateSuspended:boolean; Gui: TIPCamViewerVCL; Name: string);
     destructor Destroy; override;
+    procedure Init;
   end;
 
   TIPCamViewerVCL = class(TPanel)
     Image: TImage;
-    Update: TTimer;
     UpPanel: TPanel;
     IPAddress: TLabel;
     CxStatus: TLedPanel;
     RxTx: TLedPanel;
-    procedure UpdateTimer(Sender: TObject);
-  private
+  strict private
     FThread : TIPCamThread;
     FHost: string;
     FJpgURL: string;
     FAutoconnect: Boolean;
     FPort: Word;
+    FPassword: string;
+    FUsername: string;
+    FWaitTime: word;
+    FCapturePath: string;
+    FCaptureInterval: Cardinal;
+    FAutocapture: Boolean;
+    FCameraName: string;
     procedure SetHost(const Value: string);
     procedure SetJpgURL(const Value: string);
     procedure SetAutoconnect(const Value: Boolean);
     procedure SetPort(const Value: Word);
+    procedure SetPassword(const Value: string);
+    procedure SetUsername(const Value: string);
+    procedure SetWaitTime(const Value: word);
+    procedure SetCapturePath(const Value: string);
+    procedure SetCaptureInterval(const Value: Cardinal);
+    procedure SetAutocapture(const Value: Boolean);
+    procedure SetCameraName(const Value: string);
+    function GetCameraName: string;
   protected
     procedure Loaded; override;
+    procedure ThreadCreate;
+    procedure ThreadDestroy;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -96,9 +116,16 @@ type
     procedure Connect;
     procedure Disconnect;
     property Autoconnect : Boolean read FAutoconnect write SetAutoconnect;
+    property Autocapture: Boolean read FAutocapture write SetAutocapture;
     property Host : string read FHost write SetHost;
     property Port: Word read FPort write SetPort default 80;
     property JpgURL : string read FJpgURL write SetJpgURL;
+    property Username: string read FUsername write SetUsername;
+    property Password: string read FPassword write SetPassword;
+    property WaitTime: word read FWaitTime write SetWaitTime default 100;
+    property CapturePath: string read FCapturePath write SetCapturePath;
+    property CaptureInterval: Cardinal read FCaptureInterval write SetCaptureInterval default 1000;
+    property CameraName: string read GetCameraName write SetCameraName;
   end;
 
 
@@ -176,14 +203,160 @@ begin
 end;
 
 
+
+{ TIPCamThread }
+
+constructor TIPCamThread.Create(CreateSuspended: boolean; Gui: TIPCamViewerVCL; Name: string);
+begin
+  inherited Create(CreateSuspended);
+  FreeOnTerminate:=false;
+  Priority:=tpNormal;
+  FGui := Gui;
+  FName := Name;
+
+  FPicture := TJPEGImage.Create;
+  Fwget := TIdHTTP.Create(nil);
+  with Fwget do
+  begin
+    Name := 'wget';
+    ConnectTimeout := 10000;
+    OnAuthorization := Self.OnAuthorization;
+  end;
+
+  FLastCapture := 0;
+  FGui.IPAddress.Visible := true;
+end;
+
+
+destructor TIPCamThread.Destroy;
+begin
+  FGui.IPAddress.Visible := true;
+  FGui.CxStatus.Status := false;
+  FGui.RxTx.Status := false;
+
+  Fwget.Free;
+  FPicture.Free;
+  inherited;
+end;
+
+procedure TIPCamThread.OnAuthorization(Sender: TObject; Authentication: TIdAuthentication; var Handled: Boolean);
+begin
+  Authentication.Username := FGui.Username;
+  Authentication.Password := FGui.Password;
+  Handled:=true;
+end;
+
+
+procedure TIPCamThread.Execute;
+var
+  JpgStream: TMemoryStream;
+  Picture: TJPEGImage;
+CONST
+  TIME_WAIT_FAILED_MS = 3000;
+begin
+  inherited;
+  NameThreadForDebugging(FName);
+  repeat
+    if FResult = ipcWorking then
+    begin
+      JpgStream := TMemoryStream.Create;
+      try
+        Fwget.Get(Format('http://%s:%d%s', [FGui.Host, FGui.Port, FGui.JpgURL]), JpgStream);
+        JpgStream.Position := 0;
+        FPicture.LoadFromStream(JpgStream);
+        FResult := ipcOk;
+      except
+        FResult := ipcFailed;
+      end;
+      JpgStream.Free;
+    end
+      else
+    if FResult = ipcFailed then
+    begin
+      Sleep(TIME_WAIT_FAILED_MS);
+      FResult := ipcWaiting;
+    end
+      else
+    if FResult = ipcWaiting then
+    begin
+      Sleep(FGui.WaitTime);
+      FResult := ipcWorking;
+    end
+      else
+    if FResult = ipcOk then
+    begin
+      FResult := ipcWaiting;
+    end;
+
+    Synchronize(UpdateGui);
+  until
+    Terminated;
+end;
+
+procedure TIPCamThread.Init;
+begin
+  FResult := ipcWaiting;
+end;
+
+procedure TIPCamThread.UpdateGui;
+var
+  Filename: string;
+begin
+
+  if FResult = ipcWaiting then
+  begin
+    FGui.RxTx.Status := not FGui.RxTx.Status;
+  end;
+
+  if FResult = ipcOk then
+  begin
+    FGui.Image.Picture.Assign(FPicture);
+    FGui.CxStatus.Status := True;
+    FGui.IPAddress.Caption := FGui.Host;
+
+    if FGui.Autocapture and DirectoryExists(FGui.CapturePath) then
+    begin
+      if (GetTickCount - FLastCapture) > FGui.CaptureInterval then
+      begin
+        Filename := Format('%s-%s.jpg', [FGui.CameraName, FormatDateTime('yy-mm-dd-hh-nn-ss', now)]);
+        FGui.Image.Picture.SaveToFile(IncludeTrailingPathDelimiter(FGui.CapturePath)+Filename);
+
+        FLastCapture := GetTickCount;
+      end;
+    end;
+
+
+  end
+  else
+  if FResult = ipcFailed then
+  begin
+    FGui.CxStatus.Status := false;
+    FGui.RxTx.Status := false;
+    FGui.IPAddress.Caption := FGui.IPAddress.Caption + '.';
+  end;
+(*
+  if Update.Tag = 0 then
+  begin
+    Update.Enabled := True;
+    IPAddress.Visible := true;
+  end
+    else
+  begin
+    FThread.Result := ipcUnknown;
+  end;
+*)
+end;
+
+
+
 { TIPCamViewerVCL }
 
 constructor TIPCamViewerVCL.Create(AOwner: TComponent);
 begin
   inherited;
   FPort := 80;
-  FThread := TIPCamThread.Create(false);
-  FThread.FIPCamViewer := Self;
+  FWaitTime := 100;
+  FCaptureInterval := 1000;
 
   BevelOuter := bvNone;
   Caption := 'IPCam-Viewer';
@@ -197,16 +370,6 @@ begin
     Parent := Self;
     Align := alClient;
     Stretch := True;
-  end;
-
-
-  Update := TTimer.Create(Self);
-  with Update do
-  begin
-    Name := 'Update';
-    Interval := 100;
-    OnTimer := UpdateTimer;
-    Enabled := False;
   end;
 
 
@@ -276,13 +439,13 @@ end;
 
 destructor TIPCamViewerVCL.Destroy;
 begin
+  ThreadDestroy;
+  Disconnect;
   RxTx.Free;
   CxStatus.Free;
   IPAddress.Free;
   UpPanel.Free;
-  Update.Free;
   Image.Free;
-  FThread.Free;
   inherited;
 end;
 
@@ -293,65 +456,29 @@ begin
 end;
 
 
-procedure TIPCamViewerVCL.UpdateTimer(Sender: TObject);
-var
-  JpgStream: TMemoryStream;
-  Picture: TJPEGImage;
-begin
-  Update.Enabled := false;
-
-  if FThread.Result = ipcWaiting then
-  begin
-    FThread.Result := ipcWorking;
-    RxTx.Status := true;
-  end;
-
-  if FThread.Result = ipcOk then
-  begin
-    Image.Picture.Assign(FThread.FPicture);
-    Update.Interval := 400;
-    CxStatus.Status := True;
-    RxTx.Status := false;
-    IPAddress.Caption := FHost;
-    FThread.Result := ipcWaiting;
-  end
-  else
-  if FThread.Result = ipcFailed then
-  begin
-    Update.Interval := 4000;
-    CxStatus.Status := false;
-    RxTx.Status := false;
-    IPAddress.Caption := IPAddress.Caption + '.';
-    FThread.Result := ipcWaiting;
-  end;
-
-  if Update.Tag = 0 then
-  begin
-    Update.Enabled := True;
-    IPAddress.Visible := true;
-  end
-    else
-  begin
-    FThread.Result := ipcUnknown;
-  end;
-end;
-
-
 procedure TIPCamViewerVCL.Connect;
 begin
-  Update.Tag := 0;
-  Update.Enabled := True;
   IPAddress.Caption := 'Connecting';
-  FThread.Result := ipcWaiting;
+  ThreadCreate;
+  FThread.Init;
 end;
 
 procedure TIPCamViewerVCL.Disconnect;
 begin
-  Update.Tag := 1;
+  ThreadDestroy;
   IPAddress.Caption := 'Disconnected';
 end;
 
 
+
+
+
+procedure TIPCamViewerVCL.SetAutocapture(const Value: Boolean);
+begin
+  FAutocapture := Value;
+  if Assigned(FThread) then
+    FThread.FLastCapture := 0;
+end;
 
 procedure TIPCamViewerVCL.SetAutoconnect(const Value: Boolean);
 begin
@@ -362,6 +489,29 @@ begin
   else
     Disconnect;
 
+end;
+
+function TIPCamViewerVCL.GetCameraName: string;
+begin
+  if FCameraName = EmptyStr then
+    Result := 'NoName'
+  else
+    Result := FCameraName;
+end;
+
+procedure TIPCamViewerVCL.SetCameraName(const Value: string);
+begin
+  FCameraName := Value;
+end;
+
+procedure TIPCamViewerVCL.SetCaptureInterval(const Value: Cardinal);
+begin
+  FCaptureInterval := Value;
+end;
+
+procedure TIPCamViewerVCL.SetCapturePath(const Value: string);
+begin
+  FCapturePath := Value;
 end;
 
 procedure TIPCamViewerVCL.SetHost(const Value: string);
@@ -375,11 +525,46 @@ begin
   FJpgURL := Value;
 end;
 
+procedure TIPCamViewerVCL.SetPassword(const Value: string);
+begin
+  FPassword := Value;
+end;
+
 procedure TIPCamViewerVCL.SetPort(const Value: Word);
 begin
   FPort := Value;
 end;
 
+procedure TIPCamViewerVCL.SetUsername(const Value: string);
+begin
+  FUsername := Value;
+end;
+
+procedure TIPCamViewerVCL.SetWaitTime(const Value: word);
+begin
+  FWaitTime := Value;
+end;
+
+procedure TIPCamViewerVCL.ThreadCreate;
+begin
+  Assert(FThread = nil);
+  FThread := TIPCamThread.Create(False, Self, 'IPCamThread');
+end;
+
+procedure TIPCamViewerVCL.ThreadDestroy;
+begin
+  if Assigned(FThread) then
+  begin
+    FThread.Terminate;
+    if not FThread.Suspended then
+    begin
+      Assert(FThread.Terminated);
+      FThread.WaitFor;
+      FThread.Free;
+    end;
+    FThread := nil;
+  end;
+end;
 { TLedPanel }
 
 constructor TLedPanel.Create(AOwner: TComponent);
@@ -417,66 +602,6 @@ begin
     Color := ColorOn
   else
     Color := ColorOff;
-end;
-
-{ TIPCamThread }
-
-constructor TIPCamThread.Create(CreateSuspended: boolean);
-begin
-  inherited Create(CreateSuspended);
-
-  FreeOnTerminate:=false;
-  Priority:=tpNormal;
-
-  FPicture := TJPEGImage.Create;
-  Fwget := TIdHTTP.Create(nil);
-  with Fwget do
-  begin
-    Name := 'wget';
-    ConnectTimeout := 10000;
-  end;
-end;
-
-
-destructor TIPCamThread.Destroy;
-begin
-  Fwget.Free;
-  FPicture.Free;
-  inherited;
-end;
-
-procedure TIPCamThread.Execute;
-var
-  JpgStream: TMemoryStream;
-  Picture: TJPEGImage;
-begin
-  inherited;
-  repeat
-    Sleep(100); //en millisecondes
-    if Result = ipcWorking then
-    begin
-      Assert(not FWorking);
-      FWorking := True;
-
-      with FIPCamViewer do
-      begin
-        try
-          JpgStream := TMemoryStream.Create;
-          Fwget.Get(Format('http://%s:%d%s', [FHost, FPort, FJpgURL]), JpgStream);
-          JpgStream.Position := 0;
-          FPicture.LoadFromStream(JpgStream);
-          Result := ipcOk;
-        except
-          Result := ipcFailed;
-        end;
-
-        JpgStream.Free;
-      end;
-      FWorking := false
-    end;
-
-  until Terminated;
-
 end;
 
 

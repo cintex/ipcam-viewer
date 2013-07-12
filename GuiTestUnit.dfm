@@ -22,8 +22,22 @@ object TestUnitForm: TTestUnitForm
     Align = alBottom
     TabOrder = 0
     OnChange = TrackBar1Change
-    ExplicitLeft = 232
-    ExplicitTop = 424
-    ExplicitWidth = 150
+  end
+  object IdHTTP1: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html, */*'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 40
+    Top = 40
   end
 end
